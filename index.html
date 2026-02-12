@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- ✨ META TAGS ✨ -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="YaSem Diyet – Bursa & Balıkesir'de profesyonel beslenme danışmanlığı ve diyet hizmetleri. Kişiye özel programlar, EMS cihazı, online konsültasyon.">
+  <meta name="keywords" content="diyet, beslenme danışmanlığı, diyetisyen, Bursa, Balıkesir, kilo verme, sağlıklı yaşam">
+  <meta name="author" content="YaSem Diyet">
+  <meta name="theme-color" content="#C8392A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta property="og:title" content="YaSem Diyet – Beslenme & Diyet Danışmanlığı">
+  <meta property="og:description" content="Kişiye özel beslenme programları ve profesyonel danışmanlık hizmetiyle sağlıklı yaşam yolculuğunuzda yanınızdayız.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="YaSem Diyet">
+  <meta name="twitter:description" content="Bursa & Balıkesir'de profesyonel beslenme danışmanlığı">
+
+  <!-- 🔗 GOOGLE FONTS 🔗 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="desing.css" />
+
+  <!-- 📍 FAVICON 📍 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍒</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍒</text></svg>">
+  <link rel="canonical" href="https://yasem-diyet.com">
+
+  <title>YaSem Diyet – Beslenme & Diyet Danışmanlığı</title>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  NAVBAR
+╚══════════════════════════════════════════╝ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#" onclick="showSection('ana-sayfa')">
+      <img src="img/yasem.png" alt="YaSem Diyet Logosu">
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showSection('ana-sayfa')" class="active">Ana Sayfa</a></li>
+      <li><a href="#" onclick="showSection('hizmetler')">Hizmetlerimiz</a></li>
+      <li><a href="#" onclick="showSection('blog')">Blog</a></li>
+      <li><a href="#" onclick="showSection('vki')">VKİ Hesaplama</a></li>
+      <li><a href="#" onclick="showSection('galeri')">Başarı Galerisi</a></li>
+      <li><a href="#" onclick="showSection('randevu')">Randevu</a></li>
+    </ul>
+    <div class="nav-cta">
+      <span id="userGreeting" class="hidden"></span>
+      <button class="btn-ghost hidden" id="logoutBtn" onclick="logout()">Çıkış</button>
+      <button class="btn-pill" id="loginBtn" onclick="showModal('loginModal')">Giriş Yap</button>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <h2>Menü</h2>
+      <button class="mobile-menu-close" onclick="toggleMobileMenu()">✕</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#" onclick="showSection('ana-sayfa'); toggleMobileMenu()">Ana Sayfa</a></li>
+      <li><a href="#" onclick="showSection('hizmetler'); toggleMobileMenu()">Hizmetlerimiz</a></li>
+      <li><a href="#" onclick="showSection('blog'); toggleMobileMenu()">Blog</a></li>
+      <li><a href="#" onclick="showSection('vki'); toggleMobileMenu()">VKİ Hesaplama</a></li>
+      <li><a href="#" onclick="showSection('galeri'); toggleMobileMenu()">Başarı Galerisi</a></li>
+      <li><a href="#" onclick="showSection('randevu'); toggleMobileMenu()">Randevu</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  ANA SAYFA
+╚══════════════════════════════════════════╝ -->
+<section id="ana-sayfa" class="active">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="blob blob-1 hero-blob-1"></div>
+    <div class="blob blob-2 hero-blob-2"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> Bursa & Balıkesir Bölgesi'nin Güvenilir Diyetisyenleri</div>
+        <h1>Sağlıklı yaşam<br>bir adım <em>uzağınızda</em></h1>
+        <p>YaSem Diyet olarak kişiye özel beslenme programları ve profesyonel danışmanlık hizmetiyle sağlıklı yaşam yolculuğunuzda yanınızdayız.</p>
+        <div class="hero-actions">
+          <button class="btn-lg" onclick="showSection('randevu')">Hemen Randevu Al →</button>
+          <button class="btn-outline-lg" onclick="showSection('hizmetler')">Hizmetlerimiz</button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Mutlu Danışan</span></div>
+          <div class="stat"><span class="stat-num">3</span><span class="stat-label">Ofis Lokasyonu</span></div>
+          <div class="stat"><span class="stat-num">2</span><span class="stat-label">Uzman Diyetisyen</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card-main">
+          <div class="hero-logo-wrap">
+            <img src="img/yasem.png" alt="YaSem Diyet">
+          </div>
+        </div>
+        <div class="floating-chip chip-1"><span class="chip-icon">⚡</span>EMS Cihazı Mevcut</div>
+        <div class="floating-chip chip-2"><span class="chip-icon">💻</span>Online Danışmanlık</div>
+        <div class="floating-chip chip-3"><span class="chip-icon">⭐</span>Kişiye Özel Program</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="team-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">🍒 Ekibimiz</span>
+        <h2 class="section-title">Uzman Diyetisyenlerimiz</h2>
+        <p class="section-sub">Profesyonel kadromuzla sağlıklı yaşam yolculuğunuzda her adımda yanınızdayız.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">👩‍⚕️</div>
+          <div class="team-info">
+            <div class="team-name">Sema Polat</div>
+            <div class="team-role">Uzman Diyetisyen</div>
+            <div class="team-loc">📍 Karacabey, Bursa</div>
+            <p class="team-desc">EMS cihazı ile destekli tedavi programları ve kişiye özel beslenme planlaması konusunda uzman.</p>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍⚕️</div>
+          <div class="team-info">
+            <div class="team-name">Yasemin Polat</div>
+            <div class="team-role">Uzman Diyetisyen</div>
+            <div class="team-loc">📍 Bandırma & Susurluk, Balıkesir</div>
+            <p class="team-desc">Kişiye özel beslenme programları ve kapsamlı diyet danışmanlığı hizmeti sunmaktadır.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  HİZMETLER
+╚══════════════════════════════════════════╝ -->
+<section id="hizmetler">
+  <div class="wrap">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">✨ Neler Sunuyoruz</span>
+        <h2 class="section-title">Hizmetlerimiz</h2>
+        <p class="section-sub">Sağlıklı yaşam için ihtiyacınız olan tüm beslenme danışmanlığı hizmetlerini sunuyoruz.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon-wrap">🏥</div>
+          <h3>Hastalıklarda Beslenme ve Diyet Tedavisi</h3>
+          <p>Diyabet, kalp hastalıkları, hipertansiyon ve diğer kronik hastalıklarda özel diyet programları ve tedavi desteği.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap">👶</div>
+          <h3>Okul Öncesi ve Adölesan Dönemde Beslenme</h3>
+          <p>Çocuk ve ergen sağlığı için yaşa uygun beslenme programları ve gelişim desteği sağlıyoruz.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap">⚽</div>
+          <h3>Sporcu Beslenmesi</h3>
+          <p>Performans artırma ve dayanıklılık geliştirme için spor bilimli beslenme programları ve takip sistemi.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap">💻</div>
+          <h3>Online Diyet Hizmeti</h3>
+          <p>Videokonferans ile uzaktan danışmanlık, kişiye özel program ve WhatsApp üzerinden sürekli destek.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap">🤰</div>
+          <h3>Hamilelik Döneminde Beslenme ve Kilo Kontrolü</h3>
+          <p>Hamilelik döneminde sağlıklı beslenme, uygun kilo alımı ve anne-bebek sağlığı için danışmanlık.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap">🍼</div>
+          <h3>Emziklik Döneminde Beslenme ve Kilo Kontrolü</h3>
+          <p>Emziren annelerin beslenme ihtiyaçları, süt kalitesi ve anne sağlığı için kişiye özel programlar.</p>
+        </div>
+      </div>
+      <div class="online-banner">
+        <div>
+          <h3>💻 Online Diyet Hizmeti</h3>
+          <p>Nerede olursanız olun, video görüşme ile detaylı değerlendirme, kişiye özel beslenme programı ve WhatsApp üzerinden sürekli destek alabilirsiniz.</p>
+        </div>
+        <button class="btn-white" onclick="console.log('Test'); showSection('randevu');">Online Randevu Al →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  BLOG
+╚══════════════════════════════════════════╝ -->
+<section id="blog">
+  <div class="wrap">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">📖 Sağlıklı Yaşam</span>
+        <h2 class="section-title">Blog Yazılarımız</h2>
+        <p class="section-sub">Beslenme ve sağlıklı yaşam hakkında uzman diyetisyenlerimizden güncel içerikler.</p>
+      </div>
+      <div class="blog-grid">
+        <div class="blog-card">
+          <div class="blog-thumb">🥗</div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Beslenme</span>
+              <span class="blog-date">10 Şub 2026</span>
+            </div>
+            <h3>Dengeli Beslenmenin Önemi</h3>
+            <p>Dengeli beslenme, vücudumuzun normal işlevini sürdürmesi için gerekli tüm besin öğelerini doğru oranlarda almak anlamına gelir. Karbonhidratlar, proteinler, yağlar, vitaminler, mineraller ve su gibi besin öğeleri sağlığımızı korumak için gereklidir.</p>
+            <button class="blog-read" onclick="showBlogModal(0)">Devamını oku →</button>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-thumb">💧</div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Sağlık</span>
+              <span class="blog-date">8 Şub 2026</span>
+            </div>
+            <h3>Su İçmenin Önemi ve Faydaları</h3>
+            <p>Su, vücudun %60-70'ini oluşturur ve yaşam için vazgeçilmezdir. Yeterli su tüketimi metabolizmayı hızlandırır, vücuttan toksitleri atılmasını sağlar ve enerji seviyesini yükseltir.</p>
+            <button class="blog-read" onclick="showBlogModal(1)">Devamını oku →</button>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-thumb">🍎</div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Mevsimsel</span>
+              <span class="blog-date">5 Şub 2026</span>
+            </div>
+            <h3>Kış Mevsimi Meyve ve Sebzeleri</h3>
+            <p>Kış mevsiminde portakal, mandalina, lahana ve brokoli gibi sebzeler daha besleyicidir. Sitrus meyveler C vitamini, yeşil sebzeler ise antioksidanlar açısından zengindir.</p>
+            <button class="blog-read" onclick="showBlogModal(2)">Devamını oku →</button>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-thumb">🥑</div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Rehber</span>
+              <span class="blog-date">2 Şub 2026</span>
+            </div>
+            <h3>Sağlıklı Yağlar Rehberi</h3>
+            <p>Avokado, zeytinyağı ve balık yağı gibi "iyi yağlar" kalp sağlığını korur. Doymuş ve trans yağlardan kaçınmak, dengeli beslenme için çok önemlidir.</p>
+            <button class="blog-read" onclick="showBlogModal(3)">Devamını oku →</button>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-thumb">🏋️</div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Spor</span>
+              <span class="blog-date">30 Oca 2026</span>
+            </div>
+            <h3>Spor ve Beslenme İlişkisi</h3>
+            <p>Sporcu beslenme, performansı artırmak ve kasları geliştirmek için kritik önem taşır. Egzersiz öncesi ve sonrası beslenme, hidrasyon ve protein ihtiyacı farklıdır.</p>
+            <button class="blog-read" onclick="showBlogModal(4)">Devamını oku →</button>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-thumb">😴</div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Yaşam Tarzı</span>
+              <span class="blog-date">27 Oca 2026</span>
+            </div>
+            <h3>Uyku ve Kilo İlişkisi</h3>
+            <p>Kaliteli uyku, kilo kontrolü için beslenme kadar önemlidir. Yetersiz uyku, cortisol hormonunu artırır ve kilo alımını tetikler. Günde 7-9 saat uyku ideal olarak kabul edilir.</p>
+            <button class="blog-read" onclick="showBlogModal(5)">Devamını oku →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  VKİ
+╚══════════════════════════════════════════╝ -->
+<section id="vki">
+  <div class="wrap">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">📊 Ücretsiz Araç</span>
+        <h2 class="section-title">VKİ Hesaplama</h2>
+        <p class="section-sub">Vücut Kitle İndeksinizi hesaplayın ve sağlık durumunuzu öğrenin.</p>
+      </div>
+      <div class="calc-layout">
+        <div class="calc-card">
+          <h2>Hesapla</h2>
+          <div class="input-row">
+            <div class="form-field">
+              <label>Boy (cm)</label>
+              <input type="number" id="height" placeholder="Örn: 170">
+            </div>
+            <div class="form-field">
+              <label>Kilo (kg)</label>
+              <input type="number" id="weight" placeholder="Örn: 70">
+            </div>
+          </div>
+          <button class="btn-calc" onclick="calculateBMI()">Hesapla</button>
+          <div id="bmiResult" class="bmi-result">
+            <div class="bmi-score" id="bmiValue">—</div>
+            <div class="bmi-cat" id="bmiCategory"></div>
+            <div class="bmi-advice" id="bmiAdvice"></div>
+          </div>
+        </div>
+        <div class="bmi-table">
+          <h3>Değerlendirme Tablosu</h3>
+          <div class="bmi-row low">
+            <span class="label">Zayıf</span>
+            <span class="range">18.5'in altı</span>
+            <span class="bmi-dot dot-low"></span>
+          </div>
+          <div class="bmi-row normal">
+            <span class="label">Normal</span>
+            <span class="range">18.5 – 24.9</span>
+            <span class="bmi-dot dot-normal"></span>
+          </div>
+          <div class="bmi-row over">
+            <span class="label">Fazla Kilolu</span>
+            <span class="range">25.0 – 29.9</span>
+            <span class="bmi-dot dot-over"></span>
+          </div>
+          <div class="bmi-row obese">
+            <span class="label">Obez</span>
+            <span class="range">30.0 ve üzeri</span>
+            <span class="bmi-dot dot-obese"></span>
+          </div>
+          <div style="margin-top:1.5rem;padding:1.1rem;background:var(--cream);border-radius:var(--r);font-size:.82rem;color:var(--mid)">
+            💡 VKİ tek başına yeterli bir ölçüt değildir. Doğru değerlendirme için diyetisyenimize danışın.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  GALERİ
+╚══════════════════════════════════════════╝ -->
+<section id="galeri">
+  <div class="wrap">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">🏆 Başarı Hikayeleri</span>
+        <h2 class="section-title">Danışanlarımızın Deneyimleri</h2>
+        <p class="section-sub">Sağlıklı yaşam yolculuğunda hedeflerine ulaşan danışanlarımızın hikayeleri.</p>
+      </div>
+      <div class="gallery-track-wrap">
+        <div class="gallery-track" id="galleryTrack">
+          <div class="gallery-slide">
+            <div class="success-card">
+              <div class="success-visual">📉</div>
+              <div class="success-body">
+                <div class="success-name">Ayşe K.</div>
+                <div class="success-result">15 kg verdi • 3 ay</div>
+                <div class="success-quote">"3 ayda hedefe ulaştım. Artık kendimi çok daha enerjik hissediyorum!"</div>
+              </div>
+            </div>
+            <div class="success-card">
+              <div class="success-visual">💪</div>
+              <div class="success-body">
+                <div class="success-name">Mehmet S.</div>
+                <div class="success-result">20 kg verdi • 5 ay</div>
+                <div class="success-quote">"Diyabet değerlerim normale döndü. Hayatım tamamen değişti!"</div>
+              </div>
+            </div>
+            <div class="success-card">
+              <div class="success-visual">⭐</div>
+              <div class="success-body">
+                <div class="success-name">Zeynep Y.</div>
+                <div class="success-result">12 kg verdi • 4 ay</div>
+                <div class="success-quote">"EMS cihazı ile destekli program harikaydı. Teşekkürler YaSem Diyet!"</div>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-slide">
+            <div class="success-card">
+              <div class="success-visual">🎯</div>
+              <div class="success-body">
+                <div class="success-name">Ali R.</div>
+                <div class="success-result">18 kg verdi • 6 ay</div>
+                <div class="success-quote">"Online danışmanlık çok pratikti. İş yoğunluğuma rağmen başardım!"</div>
+              </div>
+            </div>
+            <div class="success-card">
+              <div class="success-visual">🌟</div>
+              <div class="success-body">
+                <div class="success-name">Fatma D.</div>
+                <div class="success-result">10 kg verdi • 3 ay</div>
+                <div class="success-quote">"Kişiye özel program ve sürekli destek gerçekten çok değerliydi."</div>
+              </div>
+            </div>
+            <div class="success-card">
+              <div class="success-visual">✨</div>
+              <div class="success-body">
+                <div class="success-name">Burak T.</div>
+                <div class="success-result">8 kg aldı • 4 ay</div>
+                <div class="success-quote">"Sağlıklı kilo almak istiyordum. Profesyonel destek sayesinde başardım!"</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-nav">
+        <button class="gallery-btn" onclick="prevSlide()">←</button>
+        <div class="gallery-dots" id="galleryDots">
+          <div class="g-dot active" onclick="goSlide(0)"></div>
+          <div class="g-dot" onclick="goSlide(1)"></div>
+        </div>
+        <button class="gallery-btn" onclick="nextSlide()">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  RANDEVU
+╚══════════════════════════════════════════╝ -->
+<section id="randevu">
+  <div class="wrap">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">📅 Hızlı Randevu</span>
+        <h2 class="section-title">Randevu Al</h2>
+        <p class="section-sub">Adımlarla birkaç dakikada randevunuzu oluşturun.</p>
+      </div>
+      <div id="apptFeedback"></div>
+      <div class="randevu-grid">
+        <div class="randevu-form-card">
+          <h2>Randevu Formu</h2>
+          <div id="loginRequired" class="alert-box alert-info">
+            🔐 Randevu oluşturabilmek için lütfen <strong>giriş yapın</strong>.
+            <button onclick="showModal('loginModal')" style="margin-left:.5rem;text-decoration:underline;color:inherit;cursor:pointer">Giriş Yap →</button>
+          </div>
+          <form id="appointmentForm" class="hidden" onsubmit="submitAppointment(event)">
+            <div class="form-field">
+              <label>Ofis Seçimi *</label>
+              <select id="office" required onchange="updateOfficeInfo()">
+                <option value="">Ofis Seçin</option>
+                <option value="karacabey">🏥 Karacabey – Sema Polat</option>
+                <option value="bandirma">🏥 Bandırma – Yasemin Polat</option>
+                <option value="susurluk">🏥 Susurluk – Yasemin Polat</option>
+              </select>
+            </div>
+            <div id="emsInfo" class="ems-info hidden">
+              <strong>⚡ EMS Cihazı Mevcut!</strong>
+              Karacabey ofisimizde EMS cihazı ile destekli tedavi programları sunuyoruz.
+            </div>
+            <div class="input-row">
+              <div class="form-field">
+                <label>Randevu Tarihi *</label>
+                <input type="date" id="appointmentDate" required>
+              </div>
+              <div class="form-field">
+                <label>Randevu Saati *</label>
+                <select id="appointmentTime" required>
+                  <option value="">Saat Seçin</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label>Hizmet Türü *</label>
+              <select id="serviceType" required>
+                <option value="">Hizmet Seçin</option>
+                <option value="Diyabet Diyeti">Diyabet Diyeti</option>
+                <option value="Kilo Verme">Kilo Verme</option>
+                <option value="Kilo Alma">Kilo Alma</option>
+                <option value="EMS Tedavisi">EMS Tedavisi (Sadece Karacabey)</option>
+                <option value="Beslenme Danışmanlığı">Beslenme Danışmanlığı</option>
+                <option value="Online Diyet">Online Diyet</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Notlar (Opsiyonel)</label>
+              <input type="text" id="notes" placeholder="Özel notlarınız varsa yazabilirsiniz">
+            </div>
+            <button type="submit" class="btn-submit">Randevu Oluştur →</button>
+          </form>
+          <div id="myAppointments" class="my-appointments-wrap hidden">
+            <h3>Randevularım</h3>
+            <div id="appointmentsList"></div>
+          </div>
+        </div>
+        <div>
+          <div class="offices-card">
+            <h2>Ofislerimiz</h2>
+            <div class="office-item">
+              <div class="office-name">🏥 Karacabey Ofisi</div>
+              <div class="office-detail"><strong>Diyetisyen:</strong> Sema Polat</div>
+              <div class="office-detail"><strong>Şehir:</strong> Bursa</div>
+              <span class="office-badge">⚡ EMS Cihazı Mevcut</span>
+            </div>
+            <div class="office-item">
+              <div class="office-name">🏥 Bandırma Ofisi</div>
+              <div class="office-detail"><strong>Diyetisyen:</strong> Yasemin Polat</div>
+              <div class="office-detail"><strong>Şehir:</strong> Balıkesir</div>
+            </div>
+            <div class="office-item">
+              <div class="office-name">🏥 Susurluk Ofisi</div>
+              <div class="office-detail"><strong>Diyetisyen:</strong> Yasemin Polat</div>
+              <div class="office-detail"><strong>Şehir:</strong> Balıkesir</div>
+            </div>
+            <div class="contact-note">
+              <strong>📞 Telefon Teyidi</strong><br>
+              Randevunuz oluşturulduktan sonra kayıtlı telefon numaranızdan aranarak teyit edilecektir.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  FOOTER
+╚══════════════════════════════════════════╝ -->
+<footer>
+  <div class="foot-logo">
+    <img src="img/yasem.png" alt="YaSem Diyet">
+  </div>
+  <div class="foot-links">
+    <a href="#" onclick="showSection('ana-sayfa')">Ana Sayfa</a>
+    <a href="#" onclick="showSection('hizmetler')">Hizmetlerimiz</a>
+    <a href="#" onclick="showSection('blog')">Blog</a>
+    <a href="#" onclick="showSection('vki')">VKİ Hesaplama</a>
+    <a href="#" onclick="showSection('galeri')">Başarı Galerisi</a>
+    <a href="#" onclick="showSection('randevu')">Randevu</a>
+  </div>
+  <p>© 2026 YaSem Diyet – Beslenme & Diyet Danışmanlığı. Tüm hakları saklıdır.</p>
+</footer>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  LOGIN MODAL
+╚══════════════════════════════════════════╝ -->
+<div id="loginModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-top">
+      <h2>🍒 Giriş Yap</h2>
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <div class="form-field">
+      <label>Ad Soyad *</label>
+      <input type="text" id="loginName" placeholder="Adınız Soyadınız">
+    </div>
+    <div class="form-field">
+      <label>Telefon Numarası *</label>
+      <input type="tel" id="loginPhone" placeholder="5XX XXX XX XX">
+    </div>
+    <div class="form-field">
+      <label>E-posta *</label>
+      <input type="email" id="loginEmail" placeholder="ornek@email.com">
+    </div>
+    <button class="btn-submit" onclick="login()">Giriş Yap / Kayıt Ol</button>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════════╗
+     ║  BLOG MODAL
+╚══════════════════════════════════════════╝ -->
+<div id="blogModal" class="modal-overlay">
+  <div class="modal-box blog-modal-box">
+    <div class="modal-top">
+      <h2 id="blogModalTitle">Blog Yazısı</h2>
+      <button class="modal-close" onclick="closeBlogModal()">✕</button>
+    </div>
+    <div id="blogModalContent" class="blog-modal-content">
+      <!-- Blog content will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════
+     ✨ EXTERNAL JAVASCRIPT ✨
+     ═════════════════════════════════════════════════════════ -->
+<script src="connect.js" defer></script>
+</body>
+</html>
