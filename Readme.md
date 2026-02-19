@@ -5,7 +5,6 @@
 ### 🎨 Tasarım
 - ✅ Modern, şık ve profesyonel tasarım
 - ✅ Kiraz temalı marka kimliği
-- ✅ Diyetisyen fotoğrafları hero bölümünde sol ve sağda
 - ✅ Smooth animasyonlar ve geçişler
 - ✅ Tam responsive tasarım (mobil, tablet, desktop)
 
