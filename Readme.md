@@ -169,8 +169,8 @@ HTML'de hero bölümündeki görselleri değiştirin:
 ## 📞 Destek
 
 Herhangi bir sorun veya soru için:
-- 📧 Email: info@yasemdiyet.com (placeholder)
-- 📱 Telefon: +90 XXX XXX XX XX (placeholder)
+- 📧 Email:
+- 📱 Telefon:
 
 ## 📄 Lisans
 
