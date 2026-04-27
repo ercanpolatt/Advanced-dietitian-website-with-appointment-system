@@ -1,13 +1,29 @@
 /**
  * YaSem Diyet – Beslenme & Diyet Danışmanlığı
- * Main JavaScript Controllers & Application Logic
+ * Main JavaScript – Refactored & Improved
  * @author YaSem Team
  */
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   APPLICATION STATE
-═══════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════ */
+const BMI_THRESHOLDS = { UNDERWEIGHT: 18.5, NORMAL: 25, OVERWEIGHT: 30 };
+const HEIGHT_LIMITS = { MIN: 50, MAX: 300 };
+const WEIGHT_LIMITS = { MIN: 10, MAX: 500 };
+const TOAST_DURATION_MS = 4000;
+const PHONE_REGEX = /^[0-9\-\+\s\(\)]{10,}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Sabah + Öleden Sonra, 30 dakika aralıklı
+const TIME_SLOTS = [
+  '09:00','09:30','10:00','10:30','11:00','11:30',
+  '13:00','13:30','14:00','14:30','15:00','15:30',
+  '16:00','16:30','17:00','17:30'
+];
+
+/* ═══════════════════════════════════════════
+   APPLICATION STATE
+═══════════════════════════════════════════ */
 const APP = {
   currentUser: null,
   appointments: [],
@@ -19,10 +35,9 @@ const APP = {
   }
 };
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    INITIALIZATION
-═══════════════════════════════════════════════════════════════════════════ */
-
+═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   initializeApp();
   setupEventListeners();
@@ -30,82 +45,63 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeApp() {
-  // Set minimum date for appointment booking to today
   const today = new Date().toISOString().split('T')[0];
-  const appointmentDateInput = document.getElementById('appointmentDate');
-  if (appointmentDateInput) {
-    appointmentDateInput.setAttribute('min', today);
-  }
+  const dateInput = document.getElementById('appointmentDate');
+  if (dateInput) dateInput.setAttribute('min', today);
 }
 
 function setupEventListeners() {
-  // Navbar scroll effect
+  // Navbar scroll
   window.addEventListener('scroll', handleNavbarScroll, { passive: true });
 
   // Modal backdrop click
   document.querySelectorAll('.modal-overlay').forEach((overlay) => {
     overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        closeModal(overlay.id);
-      }
+      if (e.target === overlay) closeModal(overlay.id);
     });
   });
 
-  // Mobile menu backdrop click
-  const mobileMenu = document.getElementById('mobileMenu');
-  if (mobileMenu) {
-    mobileMenu.addEventListener('click', (e) => {
-      if (e.target === mobileMenu) {
-        toggleMobileMenu();
-      }
+  // ESC key closes modals
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach((m) => {
+        closeModal(m.id);
+      });
+    }
+  });
+
+  // Scroll-to-top button
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  if (scrollBtn) {
+    window.addEventListener('scroll', () => {
+      scrollBtn.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+    scrollBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   NAVBAR & SCROLL HANDLING
-═══════════════════════════════════════════════════════════════════════════ */
-
+/* ═══════════════════════════════════════════
+   NAVBAR & SCROLL
+═══════════════════════════════════════════ */
 function handleNavbarScroll() {
   const navbar = document.getElementById('navbar');
-  const isScrolled = window.scrollY > 20;
-  
-  if (isScrolled) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
+  if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 20);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    SECTION NAVIGATION
-═══════════════════════════════════════════════════════════════════════════ */
-
+═══════════════════════════════════════════ */
 function showSection(sectionId) {
-  // Hide all sections
-  document.querySelectorAll('section').forEach((section) => {
-    section.classList.remove('active');
-  });
+  document.querySelectorAll('section').forEach((s) => s.classList.remove('active'));
+  const target = document.getElementById(sectionId);
+  if (target) target.classList.add('active');
 
-  // Show selected section
-  const selectedSection = document.getElementById(sectionId);
-  if (selectedSection) {
-    selectedSection.classList.add('active');
-  }
-
-  // Smooth scroll to top
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-
-  // Update active nav link
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   updateActiveNavLink(sectionId);
 
-  // Refresh section-specific content
-  if (sectionId === 'randevu') {
-    refreshAppointmentSection();
-  }
+  if (sectionId === 'randevu') refreshAppointmentSection();
 }
 
 function updateActiveNavLink(sectionId) {
@@ -118,29 +114,23 @@ function updateActiveNavLink(sectionId) {
 }
 
 function toggleMobileMenu() {
-  const mobileMenu = document.getElementById('mobileMenu');
+  const menu = document.getElementById('mobileMenu');
   const hamburger = document.getElementById('navHamburger');
-
-  if (mobileMenu && hamburger) {
-    mobileMenu.classList.toggle('open');
+  if (menu && hamburger) {
+    menu.classList.toggle('open');
     hamburger.classList.toggle('active');
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    GALLERY / CAROUSEL
-═══════════════════════════════════════════════════════════════════════════ */
-
-function goSlide(slideNumber) {
-  APP.slideIndex = slideNumber;
-  const galleryTrack = document.getElementById('galleryTrack');
-  if (galleryTrack) {
-    galleryTrack.style.transform = `translateX(-${slideNumber * 100}%)`;
-  }
-
-  // Update dots
-  document.querySelectorAll('.g-dot').forEach((dot, index) => {
-    dot.classList.toggle('active', index === slideNumber);
+═══════════════════════════════════════════ */
+function goSlide(n) {
+  APP.slideIndex = n;
+  const track = document.getElementById('galleryTrack');
+  if (track) track.style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.g-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === n);
   });
 }
 
@@ -152,32 +142,30 @@ function prevSlide() {
   goSlide((APP.slideIndex - 1 + APP.TOTAL_SLIDES) % APP.TOTAL_SLIDES);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    BMI CALCULATOR
-═══════════════════════════════════════════════════════════════════════════ */
-
+═══════════════════════════════════════════ */
 function calculateBMI() {
   const height = parseFloat(document.getElementById('height').value);
   const weight = parseFloat(document.getElementById('weight').value);
 
-  // Validation
-  if (!height || !weight || height < 50 || height > 300 || weight < 10 || weight > 500) {
-    showAlert('Lütfen geçerli boy (50-300 cm) ve kilo (10-500 kg) değerleri girin.', 'warning');
+  if (!height || !weight ||
+      height < HEIGHT_LIMITS.MIN || height > HEIGHT_LIMITS.MAX ||
+      weight < WEIGHT_LIMITS.MIN || weight > WEIGHT_LIMITS.MAX) {
+    showToast(`Lütfen geçerli boy (${HEIGHT_LIMITS.MIN}-${HEIGHT_LIMITS.MAX} cm) ve kilo (${WEIGHT_LIMITS.MIN}-${WEIGHT_LIMITS.MAX} kg) değerleri girin.`, 'warning');
     return;
   }
 
-  // Calculate BMI
-  const bmi = (weight / (Math.pow(height / 100, 2))).toFixed(1);
-
-  // Determine category
+  const bmi = (weight / Math.pow(height / 100, 2)).toFixed(1);
   let category, advice;
-  if (bmi < 18.5) {
+
+  if (bmi < BMI_THRESHOLDS.UNDERWEIGHT) {
     category = 'Zayıf';
     advice = 'Sağlıklı kilo almanız için profesyonel destek almanızı öneririz.';
-  } else if (bmi < 25) {
+  } else if (bmi < BMI_THRESHOLDS.NORMAL) {
     category = 'Normal ✅';
     advice = 'Harika! Sağlıklı bir kiloya sahipsiniz. Dengeli beslenmeye devam edin.';
-  } else if (bmi < 30) {
+  } else if (bmi < BMI_THRESHOLDS.OVERWEIGHT) {
     category = 'Fazla Kilolu';
     advice = 'Sağlıklı kilo vermeniz için kişiye özel bir beslenme programı oluşturabiliriz.';
   } else {
@@ -185,30 +173,23 @@ function calculateBMI() {
     advice = 'Sağlığınız için profesyonel destek almanız çok önemli. Hemen randevu alın.';
   }
 
-  // Display results
-  const bmiResult = document.getElementById('bmiResult');
   document.getElementById('bmiValue').textContent = bmi;
   document.getElementById('bmiCategory').textContent = category;
   document.getElementById('bmiAdvice').textContent = advice;
-  bmiResult.classList.add('show');
+  document.getElementById('bmiResult').classList.add('show');
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    AUTHENTICATION
-═══════════════════════════════════════════════════════════════════════════ */
-
+═══════════════════════════════════════════ */
 function showModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.classList.add('open');
-  }
+  if (modal) modal.classList.add('open');
 }
 
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.classList.remove('open');
-  }
+  if (modal) modal.classList.remove('open');
 }
 
 function login() {
@@ -216,63 +197,56 @@ function login() {
   const phone = document.getElementById('loginPhone').value.trim();
   const email = document.getElementById('loginEmail').value.trim();
 
-  // Validation
   if (!name || !phone || !email) {
-    showAlert('Lütfen tüm alanları doldurun.', 'warning');
+    showToast('Lütfen tüm alanları doldurun.', 'warning');
     return;
   }
 
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    showAlert('Lütfen geçerli bir e-posta adresi girin.', 'warning');
+  if (!EMAIL_REGEX.test(email)) {
+    showToast('Lütfen geçerli bir e-posta adresi girin.', 'warning');
     return;
   }
 
-  // Create user object
-  APP.currentUser = {
-    name,
-    phone,
-    email,
-    loginTime: new Date().toISOString()
-  };
+  if (!PHONE_REGEX.test(phone)) {
+    showToast('Lütfen geçerli bir telefon numarası girin (en az 10 hane).', 'warning');
+    return;
+  }
 
-  // Save to localStorage
-  localStorage.setItem(APP.STORAGE_KEYS.USER, JSON.stringify(APP.currentUser));
+  APP.currentUser = { name, phone, email, loginTime: new Date().toISOString() };
 
-  // Update UI
+  try {
+    localStorage.setItem(APP.STORAGE_KEYS.USER, JSON.stringify(APP.currentUser));
+  } catch (err) {
+    console.error('Oturum kaydedilemedi:', err);
+  }
+
   refreshUserUI();
   closeModal('loginModal');
   showSection('randevu');
-  showAlert('Hoşgeldiniz! Randevu almaya hazırsınız.', 'success');
+  showToast(`Hoşgeldiniz, ${name}! Randevu almaya hazırsınız.`, 'success');
 }
 
 function logout() {
   APP.currentUser = null;
   localStorage.removeItem(APP.STORAGE_KEYS.USER);
-  
-  // Update UI
+
   document.getElementById('loginBtn').classList.remove('hidden');
   document.getElementById('logoutBtn').classList.add('hidden');
   document.getElementById('userGreeting').classList.add('hidden');
-  
-  showAlert('Çıkış yapıldı.', 'info');
+
+  showToast('Çıkış yapıldı.', 'info');
   showSection('ana-sayfa');
 }
 
 function refreshUserUI() {
   if (!APP.currentUser) return;
+  document.getElementById('loginBtn').classList.add('hidden');
+  document.getElementById('logoutBtn').classList.remove('hidden');
 
-  const loginBtn = document.getElementById('loginBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
-  const userGreeting = document.getElementById('userGreeting');
-
-  loginBtn.classList.add('hidden');
-  logoutBtn.classList.remove('hidden');
-  
+  const greeting = document.getElementById('userGreeting');
   const firstName = APP.currentUser.name.split(' ')[0];
-  userGreeting.textContent = `Merhaba, ${firstName} 👋`;
-  userGreeting.classList.remove('hidden');
+  greeting.textContent = `Merhaba, ${firstName} 👋`;
+  greeting.classList.remove('hidden');
 }
 
 function loadUserSession() {
@@ -282,42 +256,36 @@ function loadUserSession() {
       APP.currentUser = JSON.parse(storedUser);
       refreshUserUI();
     }
-
-    const storedAppointments = localStorage.getItem(APP.STORAGE_KEYS.APPOINTMENTS);
-    if (storedAppointments) {
-      APP.appointments = JSON.parse(storedAppointments);
-    }
+    const storedAppts = localStorage.getItem(APP.STORAGE_KEYS.APPOINTMENTS);
+    if (storedAppts) APP.appointments = JSON.parse(storedAppts);
   } catch (error) {
-    console.error('Error loading session:', error);
+    console.error('Oturum yüklenemedi:', error);
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    APPOINTMENT MANAGEMENT
-═══════════════════════════════════════════════════════════════════════════ */
-
+═══════════════════════════════════════════ */
 function updateOfficeInfo() {
   const officeSelect = document.getElementById('office');
   const emsInfo = document.getElementById('emsInfo');
-  
   if (officeSelect && emsInfo) {
-    const isKaracabey = officeSelect.value === 'karacabey';
-    emsInfo.classList.toggle('hidden', !isKaracabey);
+    emsInfo.classList.toggle('hidden', officeSelect.value !== 'karacabey');
   }
 }
 
 function refreshAppointmentSection() {
   const hasUser = !!APP.currentUser;
-  const loginRequired = document.getElementById('loginRequired');
-  const appointmentForm = document.getElementById('appointmentForm');
-  const myAppointments = document.getElementById('myAppointments');
+  const loginReq = document.getElementById('loginRequired');
+  const form = document.getElementById('appointmentForm');
+  const myAppts = document.getElementById('myAppointments');
 
-  if (loginRequired) loginRequired.classList.toggle('hidden', hasUser);
-  if (appointmentForm) appointmentForm.classList.toggle('hidden', !hasUser);
-  if (myAppointments) myAppointments.classList.toggle('hidden', !hasUser);
-
+  if (loginReq) loginReq.classList.toggle('hidden', hasUser);
+  if (form) form.classList.toggle('hidden', !hasUser);
+  if (myAppts) myAppts.classList.toggle('hidden', !hasUser);
   if (hasUser) {
     renderAppointments();
+    renderTimeSlots(); // refresh slot availability
   }
 }
 
@@ -330,250 +298,347 @@ function submitAppointment(event) {
   const service = document.getElementById('serviceType').value;
   const notes = document.getElementById('notes').value;
 
-  // Validation
   if (!office || !date || !time || !service) {
-    showAlert('Lütfen zorunlu alanları doldurun.', 'warning');
+    showToast('Lütfen zorunlu alanları doldurun.', 'warning');
     return;
   }
 
-  // Check for appointment conflicts (same office, date, and time)
-  const appointmentConflict = APP.appointments.some(appt => 
-    appt.office === office && appt.date === date && appt.time === time
+  // Geçmiş tarih kontrolü
+  const today = new Date().toISOString().split('T')[0];
+  if (date < today) {
+    showToast('Geçmiş bir tarihe randevu oluşturamazsınız.', 'warning');
+    return;
+  }
+
+  // Çakışma kontrolü
+  const conflict = APP.appointments.some(
+    (a) => a.office === office && a.date === date && a.time === time
   );
-
-  if (appointmentConflict) {
-    showAlert('❌ Bu saat ve tarihte bu ofiste randevu dolu. Lütfen başka bir zaman seçin.', 'warning');
+  if (conflict) {
+    showToast('Bu saat ve tarihte bu ofiste randevu dolu. Lütfen başka bir zaman seçin.', 'warning');
     return;
   }
 
-  // Create appointment object
-  const appointment = {
-    id: Date.now(),
-    userName: APP.currentUser.name,
-    userPhone: APP.currentUser.phone,
-    userEmail: APP.currentUser.email,
-    office,
-    date,
-    time,
-    service,
-    notes,
-    createdAt: new Date().toISOString(),
-    status: 'confirmed'
-  };
+  // Loading state
+  const submitBtn = document.getElementById('submitApptBtn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span> Oluşturuluyor...';
+  }
 
-  // Add to appointments array
-  APP.appointments.push(appointment);
+  setTimeout(() => {
+    const appointment = {
+      id: Date.now(),
+      userName: APP.currentUser.name,
+      userPhone: APP.currentUser.phone,
+      userEmail: APP.currentUser.email,
+      office, date, time, service, notes,
+      createdAt: new Date().toISOString(),
+      status: 'confirmed'
+    };
 
-  // Save to localStorage
-  localStorage.setItem(APP.STORAGE_KEYS.APPOINTMENTS, JSON.stringify(APP.appointments));
+    APP.appointments.push(appointment);
 
-  // Show success message
-  showAlert('✅ Randevunuz başarıyla oluşturuldu! Telefon numaranızdan teyit aranacaktır.', 'success');
+    try {
+      localStorage.setItem(APP.STORAGE_KEYS.APPOINTMENTS, JSON.stringify(APP.appointments));
+    } catch (err) {
+      console.error('Randevu kaydedilemedi:', err);
+    }
 
-  // Reset form
-  event.target.reset();
-  document.getElementById('emsInfo').classList.add('hidden');
+    showToast('Randevunuz başarıyla oluşturuldu! Telefon numaranızdan teyit aranacaktır.', 'success');
+    event.target.reset();
+    document.getElementById('emsInfo').classList.add('hidden');
+    // Slot grid'i sıfırla
+    const grid = document.getElementById('timeSlotsGrid');
+    if (grid) {
+      grid.innerHTML = '<p class="slots-placeholder">Önce ofis ve tarih seçin</p>';
+    }
+    document.getElementById('appointmentTime').value = '';
+    renderAppointments();
+    renderTimeSlots();
 
-  // Refresh appointments list
-  renderAppointments();
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Randevu Oluştur →';
+    }
+  }, 800);
+}
+
+/* ═══════════════════════════════════════════
+   TIME SLOT PICKER
+═══════════════════════════════════════════ */
+
+/**
+ * Verilen ofis+tarih kombinasyonuna göre dolu saatleri döndürür.
+ * Tüm kullanıcıların randevuları baz alınır.
+ */
+function getTakenSlots(office, date) {
+  return APP.appointments
+    .filter((a) => a.office === office && a.date === date)
+    .map((a) => a.time);
+}
+
+/**
+ * Saat kartlarını oluşturur ve dolu/müsait/seçili gösterir.
+ */
+function renderTimeSlots() {
+  const grid = document.getElementById('timeSlotsGrid');
+  const hiddenInput = document.getElementById('appointmentTime');
+  if (!grid) return;
+
+  const office = document.getElementById('office')?.value;
+  const date = document.getElementById('appointmentDate')?.value;
+
+  if (!office || !date) {
+    grid.innerHTML = '<p class="slots-placeholder">Önce ofis ve tarih seçin</p>';
+    if (hiddenInput) hiddenInput.value = '';
+    return;
+  }
+
+  const takenSlots = getTakenSlots(office, date);
+  const currentSelected = hiddenInput?.value || '';
+
+  // Geçmiş saatleri geçersiz kıl (bugün için)
+  const today = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const isToday = date === today;
+
+  grid.innerHTML = '';
+  TIME_SLOTS.forEach((slot, idx) => {
+    const isTaken = takenSlots.includes(slot);
+    const isSelected = slot === currentSelected;
+
+    // Bugün için geçmiş saat mi?
+    let isPast = false;
+    if (isToday) {
+      const [h, m] = slot.split(':').map(Number);
+      const slotDate = new Date();
+      slotDate.setHours(h, m, 0, 0);
+      isPast = slotDate < now;
+    }
+
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'time-slot-card';
+    card.textContent = slot;
+    card.setAttribute('data-time', slot);
+    card.style.animationDelay = `${idx * 35}ms`;
+
+    if (isTaken || isPast) {
+      card.classList.add(isPast ? 'slot-past' : 'slot-taken');
+      card.disabled = true;
+      card.title = isPast ? 'Geçmiş saat' : 'Bu saat dolu';
+    } else if (isSelected) {
+      card.classList.add('slot-selected');
+    } else {
+      card.classList.add('slot-available');
+    }
+
+    card.addEventListener('click', () => {
+      if (card.disabled) return;
+      // De-select previous
+      grid.querySelectorAll('.time-slot-card').forEach((c) => {
+        c.classList.remove('slot-selected');
+        if (!c.disabled) c.classList.add('slot-available');
+      });
+      card.classList.remove('slot-available');
+      card.classList.add('slot-selected');
+      if (hiddenInput) hiddenInput.value = slot;
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+/** XSS-safe text escaping */
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+const OFFICE_LABELS = {
+  karacabey: 'Karacabey',
+  bandirma: 'Bandırma',
+  susurluk: 'Susurluk'
+};
+
+/**
+ * Randevunun geçmiş olup olmadığını kontrol eder.
+ * Randevu saatinden 1 saat sonrası geçildiyse geçmiş sayılır.
+ * Not: YYYY-MM-DD formatı UTC olarak parse edilir, yerel saat için
+ * saat/dakika manuel ayarlanır.
+ */
+function isAppointmentPast(appt) {
+  const [year, month, day] = appt.date.split('-').map(Number);
+  const [h, m] = appt.time.split(':').map(Number);
+  const apptDateTime = new Date(year, month - 1, day, h, m, 0, 0);
+  apptDateTime.setHours(apptDateTime.getHours() + 1); // 1 saat geçince geçmiş
+  return new Date() > apptDateTime;
 }
 
 function renderAppointments() {
   if (!APP.currentUser) return;
+  const list = document.getElementById('appointmentsList');
+  if (!list) return;
 
-  const appointmentsList = document.getElementById('appointmentsList');
-  if (!appointmentsList) return;
-
-  // Filter appointments for current user
-  const userAppointments = APP.appointments.filter(
-    (appt) => appt.userName === APP.currentUser.name
+  const userAppts = APP.appointments.filter(
+    (a) => a.userName === APP.currentUser.name
   );
 
-  if (userAppointments.length === 0) {
-    appointmentsList.innerHTML = `
-      <p style="font-size: 0.85rem; color: var(--mid); text-align: center; padding: 2rem 0;">
-        Henüz randevunuz bulunmuyor. Yeni randevu oluşturmak için formu doldurun.
-      </p>
-    `;
+  if (userAppts.length === 0) {
+    list.innerHTML = '';
+    const p = document.createElement('p');
+    p.style.cssText = 'font-size:.85rem;color:var(--mid);text-align:center;padding:2rem 0';
+    p.textContent = 'Henüz randevunuz bulunmuyor. Yeni randevu oluşturmak için formu doldurun.';
+    list.appendChild(p);
     return;
   }
 
-  const officeLabels = {
-    karacabey: 'Karacabey',
-    bandirma: 'Bandırma',
-    susurluk: 'Susurluk'
+  // Geçmiş ve gelecek olarak ayır
+  const upcoming = userAppts.filter((a) => !isAppointmentPast(a));
+  const past = userAppts.filter((a) => isAppointmentPast(a));
+
+  list.innerHTML = '';
+
+  const renderApptItem = (appt, isPast) => {
+    const officeName = OFFICE_LABELS[appt.office] || appt.office;
+    const formattedDate = new Date(appt.date).toLocaleDateString('tr-TR', {
+      weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    const item = document.createElement('div');
+    item.className = isPast ? 'appt-item appt-item-past' : 'appt-item';
+
+    const left = document.createElement('div');
+    left.className = 'appt-item-left';
+
+    const loc = document.createElement('div');
+    loc.className = 'appt-item-loc';
+    loc.textContent = `🏥 ${officeName}`;
+
+    const timeEl = document.createElement('div');
+    timeEl.className = 'appt-item-time';
+    timeEl.textContent = `${formattedDate} • ${appt.time}`;
+
+    const svc = document.createElement('div');
+    svc.className = 'appt-item-service';
+    svc.textContent = appt.service;
+
+    left.append(loc, timeEl, svc);
+    item.append(left);
+
+    if (!isPast) {
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'btn-cancel-appt';
+      cancelBtn.textContent = 'İptal Et';
+      cancelBtn.addEventListener('click', () => showCancelConfirm(appt.id, item));
+      item.appendChild(cancelBtn);
+    } else {
+      const badge = document.createElement('span');
+      badge.className = 'appt-past-badge';
+      badge.textContent = 'Tamamlandı';
+      item.appendChild(badge);
+    }
+
+    list.appendChild(item);
   };
 
-  appointmentsList.innerHTML = userAppointments
-    .map((appt) => {
-      const officeName = officeLabels[appt.office] || appt.office;
-      const appointmentDate = new Date(appt.date);
-      const formattedDate = appointmentDate.toLocaleDateString('tr-TR', {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
+  if (upcoming.length > 0) {
+    const heading = document.createElement('div');
+    heading.className = 'appt-section-title';
+    heading.textContent = '⏰ Yakılaşan Randevular';
+    list.appendChild(heading);
+    upcoming.forEach((a) => renderApptItem(a, false));
+  }
 
-      return `
-        <div class="appt-item">
-          <div class="appt-item-left">
-            <div class="appt-item-loc">🏥 ${officeName}</div>
-            <div class="appt-item-time">${formattedDate} • ${appt.time}</div>
-            <div class="appt-item-service">${appt.service}</div>
-          </div>
-          <button class="btn-cancel-appt" onclick="cancelAppointment(${appt.id})">
-            İptal Et
-          </button>
-        </div>
-      `;
-    })
-    .join('');
+  if (past.length > 0) {
+    const heading = document.createElement('div');
+    heading.className = 'appt-section-title appt-section-past';
+    heading.textContent = '✓ Geçmiş Randevular';
+    list.appendChild(heading);
+    past.forEach((a) => renderApptItem(a, true));
+  }
+}
+
+/**
+ * Satır içi iptal onay UI'si (confirm() yerine - file:// protokolünde güvenli)
+ */
+function showCancelConfirm(appointmentId, itemEl) {
+  // Zaten açık mı?
+  if (itemEl.querySelector('.cancel-confirm-row')) return;
+
+  const row = document.createElement('div');
+  row.className = 'cancel-confirm-row';
+
+  const msg = document.createElement('span');
+  msg.textContent = 'Randevuyu iptal etmek istiyor musunuz?';
+
+  const yesBtn = document.createElement('button');
+  yesBtn.className = 'btn-confirm-yes';
+  yesBtn.textContent = 'Evet, İptal Et';
+  yesBtn.addEventListener('click', () => cancelAppointment(appointmentId));
+
+  const noBtn = document.createElement('button');
+  noBtn.className = 'btn-confirm-no';
+  noBtn.textContent = 'Vazgeç';
+  noBtn.addEventListener('click', () => row.remove());
+
+  row.append(msg, yesBtn, noBtn);
+  itemEl.appendChild(row);
 }
 
 function cancelAppointment(appointmentId) {
-  if (!confirm('Randevunuzu iptal etmek istediğinizden emin misiniz?')) {
+  APP.appointments = APP.appointments.filter((a) => a.id !== appointmentId);
+  try {
+    localStorage.setItem(APP.STORAGE_KEYS.APPOINTMENTS, JSON.stringify(APP.appointments));
+  } catch (err) {
+    console.error('Randevu iptal kaydedilemedi:', err);
+  }
+
+  showToast('Randevunuz iptal edildi.', 'info');
+  renderAppointments();
+  renderTimeSlots();
+}
+
+/* ═══════════════════════════════════════════
+   TOAST NOTIFICATION SYSTEM
+═══════════════════════════════════════════ */
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  if (!container) {
+    // Fallback: legacy alert box
+    const alertBox = document.getElementById('apptFeedback');
+    if (alertBox) {
+      alertBox.innerHTML = `<div class="alert-box alert-${type}">${escapeHTML(message)}</div>`;
+      setTimeout(() => { alertBox.innerHTML = ''; }, TOAST_DURATION_MS);
+    }
     return;
   }
 
-  // Remove appointment
-  APP.appointments = APP.appointments.filter((appt) => appt.id !== appointmentId);
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
 
-  // Save to localStorage
-  localStorage.setItem(APP.STORAGE_KEYS.APPOINTMENTS, JSON.stringify(APP.appointments));
+  const icons = { success: '✅', warning: '⚠️', info: 'ℹ️', error: '❌' };
+  toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><span class="toast-msg">${escapeHTML(message)}</span>`;
 
-  // Update UI
-  showAlert('ℹ️ Randevunuz iptal edildi.', 'info');
-  renderAppointments();
-}
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   UTILITY FUNCTIONS
-═══════════════════════════════════════════════════════════════════════════ */
-
-function showAlert(message, type = 'info') {
-  const alertBox = document.getElementById('apptFeedback');
-  if (!alertBox) return;
-
-  const alertClass = `alert-${type}`;
-  alertBox.innerHTML = `<div class="alert-box ${alertClass}">${message}</div>`;
-
-  // Auto-dismiss after 5 seconds
   setTimeout(() => {
-    alertBox.innerHTML = '';
-  }, 5000);
+    toast.classList.remove('show');
+    toast.addEventListener('transitionend', () => toast.remove());
+  }, TOAST_DURATION_MS);
 }
 
-/**
- * Smooth scroll to element
- * @param {string} elementId - ID of element to scroll to
- */
-function smoothScrollTo(elementId) {
-  const element = document.getElementById(elementId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' });
-  }
+// Legacy compatibility
+function showAlert(message, type) {
+  showToast(message, type);
 }
 
-/**
- * Format date to readable format
- * @param {string} dateString - ISO date string
- * @returns {string} Formatted date
- */
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('tr-TR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
-
-/**
- * Format time to HH:MM format
- * @param {string} timeString - Time string
- * @returns {string} Formatted time
- */
-function formatTime(timeString) {
-  return timeString || '—';
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   PERFORMANCE OPTIMIZATION
-═══════════════════════════════════════════════════════════════════════════ */
-
-// Debounce function for scroll events
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-// Throttle function for resize events
-function throttle(func, limit) {
-  let inThrottle;
-  return function (...args) {
-    if (!inThrottle) {
-      func.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   MOBILE NAVIGATION
-═══════════════════════════════════════════════════════════════════════════ */
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   FORM VALIDATION
-═══════════════════════════════════════════════════════════════════════════ */
-
-/**
- * Validate email format
- * @param {string} email - Email to validate
- * @returns {boolean} True if valid
- */
-function validateEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-/**
- * Validate phone number format
- * @param {string} phone - Phone number to validate
- * @returns {boolean} True if valid
- */
-function validatePhone(phone) {
-  const regex = /^[0-9\-\+\s\(\)]{10,}$/;
-  return regex.test(phone);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   ANALYTICS & TRACKING (Optional)
-═══════════════════════════════════════════════════════════════════════════ */
-
-/**
- * Track user actions
- * @param {string} action - Action name
- * @param {object} data - Additional data
- */
-function trackEvent(action, data = {}) {
-  // This can be connected to Google Analytics or custom analytics
-  console.log(`Event: ${action}`, data);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════
    BLOG MODAL SYSTEM
-═══════════════════════════════════════════════════════════════════════════ */
-
-// Blog articles database
+═══════════════════════════════════════════ */
 const BLOG_ARTICLES = [
   {
     id: 0,
@@ -583,7 +648,7 @@ const BLOG_ARTICLES = [
 
 Beslenme dengesizliği obezite, diyabet, kalp hastalıkları ve birçok kronik hastalığın temel sebebidir. Bir gün içinde alınan kalori miktarının %50-65'i karbonhidratlardan, %10-35'i proteinlerden, %20-35'i yağlardan gelmesi önerilir.
 
-YaSem Diyet'te, kişinin yaşı, aktivite seviyesi, sağlık durumu ve hedefleri doğrultusunda özel dengelenmiş beslenme programları hazırlıyoruz. Beslenme danışmanlarımız, her hastaya uygun bir beslenme planı oluşturarak, sağlıklı yaşamı ve ideal kilo kontrolünü destekleriz.
+YaSem Diyet'te, kişinin yaşı, aktivite seviyesi, sağlık durumu ve hedefleri doğrultusunda özel dengelenmiş beslenme programları hazırlıyoruz.
 
 Çoğu zaman insanlar yanlış diyet uygulamalarına başvururlar ve bu kısa süreli sonuçlar verse de uzun vadede vücuda zarar verir. Dengeli beslenme, kalıcı sonuçlar için en etkili yoldur.`
   },
@@ -593,11 +658,11 @@ YaSem Diyet'te, kişinin yaşı, aktivite seviyesi, sağlık durumu ve hedefleri
     emoji: "💧",
     fullContent: `Su, insan vücudunun %60-70'ini oluşturan ve yaşam için vazgeçilmez olan birincil elementtir. Yeterli su tüketimi metabolizmayı hızlandırır, vücuttan toksitleri temizler, cilt sağlığını iyileştirir, enerji seviyesini artırır ve kilo kontrolünü destekler.
 
-Günde en az 8-10 bardak (2-3 litre) su içilmesi önerilir. Ancak su ihtiyacı kişinin yaşı, cinsiyeti, aktivite seviyesi ve iklim koşullarına göre değişebilir. Egzersiz yapanlar, hamile ve emzikli kadınlar, yaz mevsiminde daha fazla su tüketmeleri gerekir.
+Günde en az 8-10 bardak (2-3 litre) su içilmesi önerilir. Ancak su ihtiyacı kişinin yaşı, cinsiyeti, aktivite seviyesi ve iklim koşullarına göre değişebilir.
 
 Yetersiz su tüketimi yorgunluk, baş ağrısı, düşük konsantrasyon, cilt sorunları ve hatta kilo almaya yol açabilir. Su sadece susuzluğu gidermez, aynı zamanda besin emilimini de artırır.
 
-YaSem Diyet danışmanları, su tüketim alışkanlığını da beslenme programının bir parçası olarak değerlendirir ve kişiye özel su tüketim planı oluştururuz. Suyun yanında mevsimsel meyve suları ve bitkisel çaylar da tüketilebilir.`
+YaSem Diyet danışmanları, su tüketim alışkanlığını da beslenme programının bir parçası olarak değerlendirir ve kişiye özel su tüketim planı oluştururuz.`
   },
   {
     id: 2,
@@ -605,94 +670,75 @@ YaSem Diyet danışmanları, su tüketim alışkanlığını da beslenme program
     emoji: "🎃",
     fullContent: `Kış mevsiminde tüketilen meyve ve sebzeler, doğal mevsim döngüsüne uymuş olduğundan daha lezzetli ve besleyicidir. Portakal, mandalina, limon, greyfurt gibi sitrus meyveler C vitamini açısından zengindir ve bağışıklık sistemini güçlendirir.
 
-Lahana, brokoli, pırasa, havuç, pancar ve karalahana kış sebzeleri arasında yer alır. Bu sebzelerin tümü vitamin, mineral ve antioksidanlar bakımından olukça zengindir. Kış sebzelerindeki beta karoten, C vitamini ve diğer antioksidanlar vücudu soğuk mevsim hastalıklarından korur.
+Lahana, brokoli, pırasa, havuç, pancar ve karalahana kış sebzeleri arasında yer alır. Bu sebzelerin tümü vitamin, mineral ve antioksidanlar bakımından oldukça zengindir.
 
-Yerel ve mevsimsel ürünler hem daha ucuz hem de daha sağlıklıdır. Çiftçilerden doğrudan taze ürün satın almak daha sağlıklıdır. Kış mevsiminde bu ürünleri bolca tüketmek bağışıklığınızı güçlü hale getirecektir.
+Yerel ve mevsimsel ürünler hem daha ucuz hem de daha sağlıklıdır. Kış mevsiminde bu ürünleri bolca tüketmek bağışıklığınızı güçlü hale getirecektir.
 
-Ayrıca bu sebzeler daha az pestisit içerir ve çevre için daha sürdürülebilir seçeneklerdir. YaSem Diyet'te mevsimsel yemek hazırlanmasında uzmanlaşmış danışmanlarız size rehberlik edebilir.`
+Ayrıca bu sebzeler daha az pestisit içerir ve çevre için daha sürdürülebilir seçeneklerdir.`
   },
   {
     id: 3,
     title: "Sağlıklı Yağlar Rehberi",
     emoji: "🥑",
-    fullContent: `Yağlar besin zincirinin önemli bir parçasıdır ve tümü zararlı değildir. Antioksidanlar açısından zengin olan avokado, zeytinyağı, balık yağı ve kuruyemişlerdeki yağlar "iyi yağlar" olarak bilinir ve kalp sağlığını korur.
+    fullContent: `Yağlar besin zincirinin önemli bir parçasıdır ve tümü zararlı değildir. Avokado, zeytinyağı, balık yağı ve kuruyemişlerdeki yağlar "iyi yağlar" olarak bilinir ve kalp sağlığını korur.
 
-Bu "iyi yağlar" özellikle enerji veren ve hormonal sistemin düzgün çalışmasında gerekilidir. Omega-3 yağ asitleri, beyin sağlığı, anti-inflamasyon ve kalp hastalıklarından koruma sağlar. Çoğu balık, özellikle somon, uskumru ve geridan omega-3 açısından zengindir.
+Omega-3 yağ asitleri, beyin sağlığı, anti-inflamasyon ve kalp hastalıklarından koruma sağlar. Çoğu balık, özellikle somon, uskumru omega-3 açısından zengindir.
 
-Bunun aksine hayvan kökenli doymuş yağlar ve trans yağlar zararlıdır. Bu tür yağlar kolesterol seviyesini artırır ve kalp hastalıkları riskini yükseltir. Beslenme programınızda yağ oranını kontrol etmek önemlidir.
+Bunun aksine hayvan kökenli doymuş yağlar ve trans yağlar zararlıdır. Bu tür yağlar kolesterol seviyesini artırır ve kalp hastalıkları riskini yükseltir.
 
-Günde 25-35 gram yağ alınması önerilir, ancak bu yağlar sağlıklı kaynaklardan gelmelidir. YaSem Diyet uzmanları, yağ seçimi ve pişirme yöntemleri hakkında ayrıntılı bilgi sağlar.`
+Günde 25-35 gram yağ alınması önerilir, ancak bu yağlar sağlıklı kaynaklardan gelmelidir.`
   },
   {
     id: 4,
     title: "Spor ve Beslenme İlişkisi",
     emoji: "🏋️",
-    fullContent: `Sporcu beslenme, performansı artırmak, kasları geliştirmek ve yaralanmaları önlemek için kritik bir faktördür. Spor yaparken vücud daha fazla enerjiye, protein ihtiyacı duyar ve elektrolit dengesinin korunması gerekir.
+    fullContent: `Sporcu beslenme, performansı artırmak, kasları geliştirmek ve yaralanmaları önlemek için kritik bir faktördür. Spor yaparken vücut daha fazla enerjiye ve protein ihtiyacı duyar.
 
-Egzersiz öncesi hızlı emilen karbonhidrat (muz, fındık ezmesi gibi) ve az protein tüketilmesi önerilir. Egzersiz sonrası ise protein ve karbonhidrat kombinasyonu kas onarımını destekler. Antrenmanın 30-60 dakika sonrasında beslenme en etkilidir.
+Egzersiz öncesi hızlı emilen karbonhidrat ve az protein tüketilmesi önerilir. Egzersiz sonrası ise protein ve karbonhidrat kombinasyonu kas onarımını destekler.
 
 Hidrasyon da oldukça önemlidir. Özellikle yoğun antrenman sırasında vücut çok su kaybeder. Spor sırasında ve sonrasında elektrolit içeren içecekler tüketilmesi performansı artırır.
 
-Sporcu yağ oranı da normal insanlardan farklı olmalıdır. Kas geliştirmek isteyenlerin protein ihtiyacı günde 1.2-2.0 gram/kg vücut ağırlığı kadardır. Düzenli sporla uğraşanlar için kişiye özel beslenme programları hazırlama konusunda YaSem Diyet ile çalışabilirsiniz.`
+Kas geliştirmek isteyenlerin protein ihtiyacı günde 1.2-2.0 gram/kg vücut ağırlığı kadardır.`
   },
   {
     id: 5,
     title: "Uyku ve Kilo İlişkisi",
     emoji: "😴",
-    fullContent: `Kaliteli uyku, kilo kontrolü ve genel sağlık için beslenme kadar önemlidir. Yetersiz uyku, cortisol hormonunun artmasına neden olur ve kilo alımını tetikler. Ayrıca uyku yoksunluğu insülin direncini artırır ve şeker tüketme isteğini arttırır.
+    fullContent: `Kaliteli uyku, kilo kontrolü ve genel sağlık için beslenme kadar önemlidir. Yetersiz uyku, cortisol hormonunun artmasına neden olur ve kilo alımını tetikler.
 
 Günde 7-9 saat kaliteli uyku alınması önerilir. Ancak sadece uyku saati değil, uykunun kalitesi de önemlidir. Düzenli uyku saati, karanlık bir ortam ve yatma öncesi teknoloji kullanımından kaçınmak uyku kalitesini iyileştirir.
 
-Uyku hormonu olan melatoninin üretimi, karanlıkta ve sessiz ortamda daha iyi gerçekleşir. Akşam saatlerinde parlak ışıklar (özellikle telefon), melatonin üretimini engeller. Yatmadan en az 1 saat önce teknoloji kullanımından kaçınmak tavsiye edilir.
+Akşam saatlerinde parlak ışıklar, özellikle telefon, melatonin üretimini engeller. Yatmadan en az 1 saat önce teknoloji kullanımından kaçınmak tavsiye edilir.
 
-Beslenme ve uyku dengesinin sağlanması kilo kontrolü ve sağlıklı yaşam için kritik öneme sahiptir. YaSem Diyet danışmanları, uyku kalitesini artıran beslenme önerileri sunabilir.`
+Beslenme ve uyku dengesinin sağlanması kilo kontrolü ve sağlıklı yaşam için kritik öneme sahiptir.`
   }
 ];
 
-/**
- * Open blog modal with specific article
- * @param {number} index - Article index in BLOG_ARTICLES array
- */
 function showBlogModal(index) {
-  if (index < 0 || index >= BLOG_ARTICLES.length) {
-    console.warn('Invalid blog article index');
-    return;
-  }
+  if (index < 0 || index >= BLOG_ARTICLES.length) return;
 
   const article = BLOG_ARTICLES[index];
   const modal = document.getElementById('blogModal');
   const title = document.getElementById('blogModalTitle');
   const content = document.getElementById('blogModalContent');
+  if (!modal || !title || !content) return;
 
-  if (!modal || !title || !content) {
-    console.warn('Blog modal elements not found');
-    return;
-  }
-
-  // Update modal content
   title.textContent = `${article.emoji} ${article.title}`;
-  content.innerHTML = `<p>${article.fullContent.split('\n\n').join('</p><p>')}</p>`;
+  // XSS-safe: split paragraphs and create elements
+  content.innerHTML = '';
+  article.fullContent.split('\n\n').forEach((para) => {
+    const p = document.createElement('p');
+    p.textContent = para;
+    content.appendChild(p);
+  });
 
-  // Open modal
   modal.classList.add('open');
-  trackEvent('blog_article_opened', { articleId: article.id, title: article.title });
 }
 
-/**
- * Close blog modal
- */
 function closeBlogModal() {
   const modal = document.getElementById('blogModal');
   if (modal) {
     modal.classList.remove('open');
-    // Reset content
     document.getElementById('blogModalContent').innerHTML = '';
   }
 }
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   EXPORT FOR TESTING
-═══════════════════════════════════════════════════════════════════════════ */
-
-// Uncomment if using ES modules
-// export { APP, showSection, calculateBMI, login, logout };

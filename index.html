@@ -33,10 +33,16 @@
 </head>
 <body>
 
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<!-- Scroll to Top Button -->
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Sayfa başına dön">↑</button>
+
 <!-- ╔══════════════════════════════════════════╗
      ║  NAVBAR
 ╚══════════════════════════════════════════╝ -->
-<nav id="navbar">
+<nav id="navbar" role="navigation" aria-label="Ana menü">
   <div class="nav-inner">
     <a class="nav-logo" href="#" onclick="showSection('ana-sayfa')">
       <img src="img/yasem.png" alt="YaSem Diyet Logosu">
@@ -194,7 +200,7 @@
           <h3>💻 Online Diyet Hizmeti</h3>
           <p>Nerede olursanız olun, video görüşme ile detaylı değerlendirme, kişiye özel beslenme programı ve WhatsApp üzerinden sürekli destek alabilirsiniz.</p>
         </div>
-        <button class="btn-white" onclick="console.log('Test'); showSection('randevu');">Online Randevu Al →</button>
+        <button class="btn-white" onclick="showSection('randevu')">Online Randevu Al →</button>
       </div>
     </div>
   </div>
@@ -452,7 +458,7 @@
           <form id="appointmentForm" class="hidden" onsubmit="submitAppointment(event)">
             <div class="form-field">
               <label>Ofis Seçimi *</label>
-              <select id="office" required onchange="updateOfficeInfo()">
+              <select id="office" required onchange="updateOfficeInfo(); renderTimeSlots();">
                 <option value="">Ofis Seçin</option>
                 <option value="karacabey">🏥 Karacabey – Sema Polat</option>
                 <option value="bandirma">🏥 Bandırma – Yasemin Polat</option>
@@ -463,24 +469,23 @@
               <strong>⚡ EMS Cihazı Mevcut!</strong>
               Karacabey ofisimizde EMS cihazı ile destekli tedavi programları sunuyoruz.
             </div>
-            <div class="input-row">
-              <div class="form-field">
-                <label>Randevu Tarihi *</label>
-                <input type="date" id="appointmentDate" required>
+            </div>
+            <div class="form-field">
+              <label>Randevu Tarihi *</label>
+              <input type="date" id="appointmentDate" required onchange="renderTimeSlots()">
+            </div>
+            <!-- TIME SLOT PICKER -->
+            <div class="form-field">
+              <label>Randevu Saati *</label>
+              <div class="time-slot-legend">
+                <span class="slot-legend-item"><span class="slot-dot dot-available"></span>Müsait</span>
+                <span class="slot-legend-item"><span class="slot-dot dot-taken"></span>Dolu</span>
+                <span class="slot-legend-item"><span class="slot-dot dot-selected"></span>Seçili</span>
               </div>
-              <div class="form-field">
-                <label>Randevu Saati *</label>
-                <select id="appointmentTime" required>
-                  <option value="">Saat Seçin</option>
-                  <option value="09:00">09:00</option>
-                  <option value="10:00">10:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="14:00">14:00</option>
-                  <option value="15:00">15:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="17:00">17:00</option>
-                </select>
+              <div id="timeSlotsGrid" class="time-slots-grid">
+                <p class="slots-placeholder">Önce ofis ve tarih seçin</p>
               </div>
+              <input type="hidden" id="appointmentTime" required>
             </div>
             <div class="form-field">
               <label>Hizmet Türü *</label>
@@ -498,7 +503,7 @@
               <label>Notlar (Opsiyonel)</label>
               <input type="text" id="notes" placeholder="Özel notlarınız varsa yazabilirsiniz">
             </div>
-            <button type="submit" class="btn-submit">Randevu Oluştur →</button>
+            <button type="submit" class="btn-submit" id="submitApptBtn">Randevu Oluştur →</button>
           </form>
           <div id="myAppointments" class="my-appointments-wrap hidden">
             <h3>Randevularım</h3>
@@ -538,7 +543,7 @@
 <!-- ╔══════════════════════════════════════════╗
      ║  FOOTER
 ╚══════════════════════════════════════════╝ -->
-<footer>
+<footer role="contentinfo">
   <div class="foot-logo">
     <img src="img/yasem.png" alt="YaSem Diyet">
   </div>
@@ -549,6 +554,11 @@
     <a href="#" onclick="showSection('vki')">VKİ Hesaplama</a>
     <a href="#" onclick="showSection('galeri')">Başarı Galerisi</a>
     <a href="#" onclick="showSection('randevu')">Randevu</a>
+  </div>
+  <div class="foot-social">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+    <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">💬</a>
+    <a href="mailto:info@yasem-diyet.com" aria-label="E-posta">📧</a>
   </div>
   <p>© 2026 YaSem Diyet – Beslenme & Diyet Danışmanlığı. Tüm hakları saklıdır.</p>
 </footer>
