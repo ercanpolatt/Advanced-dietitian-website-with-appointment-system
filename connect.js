@@ -102,6 +102,17 @@ function showSection(sectionId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   updateActiveNavLink(sectionId);
 
+  // Galeri sekmesinde iç scroll kullanıldığından window.scroll tetiklenmez.
+  // Navbar'ın her zaman görünür olması için scrolled class zorla eklenir/kaldırılır.
+  const navbar = document.getElementById('navbar');
+  if (navbar) {
+    if (sectionId === 'galeri') {
+      navbar.classList.add('scrolled');
+    } else if (window.scrollY <= 20) {
+      navbar.classList.remove('scrolled');
+    }
+  }
+
   if (sectionId === 'randevu') refreshAppointmentSection();
 }
 

@@ -314,7 +314,9 @@ body::before {
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  z-index: 1001;
+  z-index: 1200;
+  position: relative;
+  pointer-events: auto !important;
 }
 
 .nav-hamburger span {
@@ -1463,10 +1465,10 @@ section.active {
 
 .reels-section {
   position: relative;
-  height: calc(100vh - 72px);
+  height: 100vh;
   width: 100%;
   background: #000;
-  padding-top: 0 !important;
+  padding-top: 72px !important;
   min-height: unset !important;
 }
 
@@ -1475,10 +1477,11 @@ section.reels-section.active {
   justify-content: center;
 }
 
+
 .reels-container {
   height: 100%;
   width: 100%;
-  max-width: 500px;
+  max-width: 540px;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -1632,6 +1635,49 @@ section.reels-section.active {
   50% {
     transform: translateY(15px);
     opacity: 1;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   GALLERY DESKTOP LAYOUT
+═══════════════════════════════════════════ */
+@media (min-width: 769px) {
+  section.reels-section.active {
+    padding-top: 72px;
+    align-items: flex-start;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .reels-container {
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    overflow-y: auto;
+    height: auto;
+    scroll-snap-type: none;
+    align-content: start;
+    background: #0a0a0a;
+  }
+
+  .reel-card {
+    height: 480px;
+    scroll-snap-align: none;
+  }
+
+  .reel-scroll-indicator {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .reels-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .reel-card {
+    height: 520px;
   }
 }
 
