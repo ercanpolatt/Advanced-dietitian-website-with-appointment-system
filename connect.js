@@ -16,9 +16,9 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Sabah + Öleden Sonra, 30 dakika aralıklı
 const TIME_SLOTS = [
-  '09:00','09:30','10:00','10:30','11:00','11:30',
-  '13:00','13:30','14:00','14:30','15:00','15:30',
-  '16:00','16:30','17:00','17:30'
+  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
+  '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
+  '16:00', '16:30', '17:00', '17:30'
 ];
 
 /* ═══════════════════════════════════════════
@@ -27,8 +27,6 @@ const TIME_SLOTS = [
 const APP = {
   currentUser: null,
   appointments: [],
-  slideIndex: 0,
-  TOTAL_SLIDES: 2,
   STORAGE_KEYS: {
     USER: 'yasem_user',
     APPOINTMENTS: 'yasem_appointments'
@@ -48,6 +46,9 @@ function initializeApp() {
   const today = new Date().toISOString().split('T')[0];
   const dateInput = document.getElementById('appointmentDate');
   if (dateInput) dateInput.setAttribute('min', today);
+
+  // Galeriyi otomatik doldur (20 ekstra reels mock up)
+  generateExtraReels();
 }
 
 function setupEventListeners() {
@@ -115,31 +116,91 @@ function updateActiveNavLink(sectionId) {
 
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
+  const backdrop = document.getElementById('mobileMenuBackdrop');
   const hamburger = document.getElementById('navHamburger');
   if (menu && hamburger) {
     menu.classList.toggle('open');
+    if (backdrop) backdrop.classList.toggle('open');
     hamburger.classList.toggle('active');
+
+    // Prevent background scrolling when menu is open
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
   }
 }
 
 /* ═══════════════════════════════════════════
    GALLERY / CAROUSEL
 ═══════════════════════════════════════════ */
-function goSlide(n) {
-  APP.slideIndex = n;
-  const track = document.getElementById('galleryTrack');
-  if (track) track.style.transform = `translateX(-${n * 100}%)`;
-  document.querySelectorAll('.g-dot').forEach((dot, i) => {
-    dot.classList.toggle('active', i === n);
-  });
+function toggleReelText(btn) {
+  const textContainer = btn.previousElementSibling;
+  if (textContainer && textContainer.classList.contains('reel-text')) {
+    textContainer.classList.toggle('expanded');
+    if (textContainer.classList.contains('expanded')) {
+      btn.textContent = 'Daha Az Göster';
+    } else {
+      btn.textContent = 'Devamını Oku';
+    }
+  }
 }
 
-function nextSlide() {
-  goSlide((APP.slideIndex + 1) % APP.TOTAL_SLIDES);
-}
+function generateExtraReels() {
+  const container = document.getElementById('reelsContainer');
+  if (!container) return;
 
-function prevSlide() {
-  goSlide((APP.slideIndex - 1 + APP.TOTAL_SLIDES) % APP.TOTAL_SLIDES);
+  const names = ['Ahmet Y.', 'Elif B.', 'Caner T.', 'Selin M.', 'Burcu K.', 'Oğuzhan D.', 'Gökçe S.', 'Emre C.', 'Deniz A.', 'Kerem V.', 'Merve N.', 'Pınar E.', 'Volkan R.', 'Aslı P.', 'Cem G.', 'Derya L.', 'Hakan F.', 'İrem H.', 'Tolga Z.', 'Sinem C.'];
+  const results = [
+    '14 kg verdi • 4 ay', '8 kg verdi • 2 ay', '22 kg verdi • 6 ay', '11 kg verdi • 3 ay', '9 kg aldı • 3 ay',
+    '16 kg verdi • 5 ay', '10 kg verdi • 3 ay', '18 kg verdi • 6 ay', '13 kg verdi • 4 ay', '15 kg verdi • 4 ay',
+    '7 kg verdi • 2 ay', '19 kg verdi • 5 ay', '12 kg verdi • 3 ay', '8 kg aldı • 4 ay', '21 kg verdi • 7 ay',
+    '9 kg verdi • 2 ay', '17 kg verdi • 5 ay', '10 kg aldı • 4 ay', '14 kg verdi • 4 ay', '25 kg verdi • 8 ay'
+  ];
+  const quotes = [
+    'Düzenli beslenerek hayatım değişti. Enerjim tavan yaptı!',
+    'Tatlı krizlerini aştım. Artık çok daha sağlıklıyım.',
+    'Yıllardır veremediğim kiloları YaSem Diyet ile verdim.',
+    'Hem inceldim hem de daha fit hissediyorum.',
+    'Kilo almak benim için hayaldi, şimdi ideal kilomdayım.',
+    'EMS antrenmanları ile bölgesel yağlarımdan kurtuldum.',
+    'Sadece zayıflamakla kalmadım, doğru beslenmeyi öğrendim.',
+    'Pes etmek üzereyken harika destek oldular.',
+    'Online diyetin bu kadar etkili olacağını düşünmezdim.',
+    'Aç kalmadan kilo vermenin keyfini yaşıyorum.',
+    'Kısa sürede büyük değişim. Çok teşekkür ederim.',
+    'Sağlık sorunlarım geride kaldı. Kendimi yenilenmiş hissediyorum.',
+    'Güleryüzlü ve profesyonel yaklaşım için minnettarım.',
+    'Kilo almak da vermek kadar zormuş. Ama başardık!',
+    'Büyük bir dönüşüm yaşadım. Özgüvenim yerine geldi.',
+    'Diyet yapmak hiç bu kadar keyifli olmamıştı.',
+    'Hedefime ulaşmamda en büyük destekçim YaSem Diyet.',
+    'Kas kütlemi artırarak sağlıklı bir şekilde kilo aldım.',
+    'Motivasyonumu hiç düşürmediler. Her adımda yanımdaydılar.',
+    'İmkansız diye bir şey yokmuş. Sonuçlar inanılmaz!'
+  ];
+
+  for (let i = 0; i < 20; i++) {
+    const card = document.createElement('div');
+    card.className = 'reel-card';
+
+    // Yüksek kaliteli spor/fitness placeholder fotoğrafları
+    const imageUrl = `https://picsum.photos/seed/diyet${i + 10}/600/1000`;
+
+    card.innerHTML = `
+      <img src="${imageUrl}" alt="Başarı Hikayesi" class="reel-image" loading="lazy">
+      <div class="reel-overlay">
+        <div class="reel-info">
+          <div class="reel-header">
+            <h3 class="reel-name">${names[i]}</h3>
+            <span class="reel-badge">✨ ${results[i]}</span>
+          </div>
+          <div class="reel-text-container">
+            <p class="reel-text">"${quotes[i]}"</p>
+            <button class="reel-read-more" onclick="toggleReelText(this)">Devamını Oku</button>
+          </div>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -150,8 +211,8 @@ function calculateBMI() {
   const weight = parseFloat(document.getElementById('weight').value);
 
   if (!height || !weight ||
-      height < HEIGHT_LIMITS.MIN || height > HEIGHT_LIMITS.MAX ||
-      weight < WEIGHT_LIMITS.MIN || weight > WEIGHT_LIMITS.MAX) {
+    height < HEIGHT_LIMITS.MIN || height > HEIGHT_LIMITS.MAX ||
+    weight < WEIGHT_LIMITS.MIN || weight > WEIGHT_LIMITS.MAX) {
     showToast(`Lütfen geçerli boy (${HEIGHT_LIMITS.MIN}-${HEIGHT_LIMITS.MAX} cm) ve kilo (${WEIGHT_LIMITS.MIN}-${WEIGHT_LIMITS.MAX} kg) değerleri girin.`, 'warning');
     return;
   }
@@ -547,7 +608,7 @@ function renderAppointments() {
   if (upcoming.length > 0) {
     const heading = document.createElement('div');
     heading.className = 'appt-section-title';
-    heading.textContent = '⏰ Yakılaşan Randevular';
+    heading.textContent = '⏰ Yaklaşan Randevular';
     list.appendChild(heading);
     upcoming.forEach((a) => renderApptItem(a, false));
   }
