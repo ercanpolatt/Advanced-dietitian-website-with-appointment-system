@@ -42,6 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
   loadUserSession();
 });
 
+window.addEventListener('load', () => {
+  if (typeof updateReadMoreVisibility === 'function') {
+    setTimeout(updateReadMoreVisibility, 100);
+  }
+});
+
 function initializeApp() {
   const today = new Date().toISOString().split('T')[0];
   const dateInput = document.getElementById('appointmentDate');
@@ -49,6 +55,10 @@ function initializeApp() {
 
   // Galeriyi otomatik doldur (20 ekstra reels mock up)
   generateExtraReels();
+
+  if (typeof updateReadMoreVisibility === 'function') {
+    updateReadMoreVisibility();
+  }
 }
 
 function setupEventListeners() {
@@ -142,6 +152,32 @@ function toggleMobileMenu() {
 /* ═══════════════════════════════════════════
    GALLERY / CAROUSEL
 ═══════════════════════════════════════════ */
+function updateReadMoreVisibility() {
+  document.querySelectorAll('.reel-text-container').forEach(container => {
+    const textEl = container.querySelector('.reel-text');
+    const btn = container.querySelector('.reel-read-more');
+    if (!textEl || !btn) return;
+
+    const checkVisibility = () => {
+      if (textEl.classList.contains('expanded')) {
+        btn.style.display = 'inline-block';
+        return;
+      }
+      // Check if text is truncated (scrollHeight is greater than clientHeight)
+      if (textEl.scrollHeight > textEl.clientHeight + 2) {
+        btn.style.display = 'inline-block';
+      } else {
+        btn.style.display = 'none';
+      }
+    };
+
+    checkVisibility();
+  });
+}
+
+// Re-check on window resize in case text wrapping changes
+window.addEventListener('resize', updateReadMoreVisibility);
+
 function toggleReelText(btn) {
   const textContainer = btn.previousElementSibling;
   if (textContainer && textContainer.classList.contains('reel-text')) {

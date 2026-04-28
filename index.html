@@ -28,7 +28,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="desing.css" />
+  <link rel="stylesheet" href="desing.css?v=3" />
 
   <!-- 📍 FAVICON 📍 -->
   <link rel="icon"
@@ -98,36 +98,28 @@
      ║  ANA SAYFA
 ╚══════════════════════════════════════════╝ -->
   <section id="ana-sayfa" class="active">
-    <!-- HERO -->
-    <div class="hero">
-      <div class="blob blob-1 hero-blob-1"></div>
-      <div class="blob blob-2 hero-blob-2"></div>
-      <div class="hero-inner">
-        <div class="hero-content">
-          <div class="hero-badge"><span class="dot"></span> Bursa & Balıkesir Bölgesi'nin Güvenilir Diyetisyenleri</div>
-          <h1>Sağlıklı yaşam<br>bir adım <em>uzağınızda</em></h1>
-          <p>YaSem Diyet olarak kişiye özel beslenme programları ve profesyonel danışmanlık hizmetiyle sağlıklı yaşam
-            yolculuğunuzda yanınızdayız.</p>
-          <div class="hero-actions">
-            <button class="btn-lg" onclick="showSection('randevu')">Hemen Randevu Al →</button>
-            <button class="btn-outline-lg" onclick="showSection('hizmetler')">Hizmetlerimiz</button>
-          </div>
-          <div class="hero-stats">
-            <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Mutlu Danışan</span></div>
-            <div class="stat"><span class="stat-num">3</span><span class="stat-label">Ofis Lokasyonu</span></div>
-            <div class="stat"><span class="stat-num">2</span><span class="stat-label">Uzman Diyetisyen</span></div>
-          </div>
+    <!-- HERO SPLIT -->
+    <div class="hero-split">
+      <div class="hero-half hero-left">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800"
+          alt="Sema Polat">
+        <div class="hero-half-content">
+          <h2 class="hero-half-title">Sema Polat</h2>
+          <p class="hero-half-subtitle">Uzman Diyetisyen • Karacabey</p>
         </div>
-        <div class="hero-visual">
-          <div class="hero-card-main">
-            <div class="hero-logo-wrap">
-              <img src="img/yasem.png" alt="YaSem Diyet">
-            </div>
-          </div>
-          <div class="floating-chip chip-1"><span class="chip-icon">⚡</span>EMS Cihazı Mevcut</div>
-          <div class="floating-chip chip-2"><span class="chip-icon">💻</span>Online Danışmanlık</div>
-          <div class="floating-chip chip-3"><span class="chip-icon">⭐</span>Kişiye Özel Program</div>
+      </div>
+      <div class="hero-half hero-right">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800"
+          alt="Yasemin Polat">
+        <div class="hero-half-content">
+          <h2 class="hero-half-title">Yasemin Polat</h2>
+          <p class="hero-half-subtitle">Uzman Diyetisyen • Balıkesir</p>
         </div>
+      </div>
+      <div class="hero-center-cta">
+        <h1>Premium Beslenme <br><em>Danışmanlığı</em></h1>
+        <p>Sağlıklı yaşam yolculuğunuzda yanınızdayız.</p>
+        <button class="center-btn" onclick="showSection('randevu')">Hemen Randevu Al →</button>
       </div>
     </div>
 
@@ -139,25 +131,32 @@
           <h2 class="section-title">Uzman Diyetisyenlerimiz</h2>
           <p class="section-sub">Profesyonel kadromuzla sağlıklı yaşam yolculuğunuzda her adımda yanınızdayız.</p>
         </div>
-        <div class="team-grid">
-          <div class="team-card">
-            <div class="team-avatar">👩‍⚕️</div>
-            <div class="team-info">
-              <div class="team-name">Sema Polat</div>
+        <div class="team-showcase">
+          <div class="team-showcase-card">
+            <div class="team-photo">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=800"
+                alt="Sema Polat" loading="lazy">
+            </div>
+            <div class="team-info-modern">
+              <h3 class="team-name">Sema Polat</h3>
               <div class="team-role">Uzman Diyetisyen</div>
               <div class="team-loc">📍 Karacabey, Bursa</div>
               <p class="team-desc">EMS cihazı ile destekli tedavi programları ve kişiye özel beslenme planlaması
-                konusunda uzman.</p>
+                konusunda uzman. Sağlıklı yaşam hedeflerinize ulaşmanız için yanınızda.</p>
             </div>
           </div>
-          <div class="team-card">
-            <div class="team-avatar">👩‍⚕️</div>
-            <div class="team-info">
-              <div class="team-name">Yasemin Polat</div>
+
+          <div class="team-showcase-card reverse">
+            <div class="team-photo">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800"
+                alt="Yasemin Polat" loading="lazy">
+            </div>
+            <div class="team-info-modern">
+              <h3 class="team-name">Yasemin Polat</h3>
               <div class="team-role">Uzman Diyetisyen</div>
               <div class="team-loc">📍 Bandırma & Susurluk, Balıkesir</div>
               <p class="team-desc">Kişiye özel beslenme programları ve kapsamlı diyet danışmanlığı hizmeti sunmaktadır.
-              </p>
+                Kalıcı sonuçlar ve sağlıklı alışkanlıklar için profesyonel rehberiniz.</p>
             </div>
           </div>
         </div>
@@ -521,38 +520,38 @@
               </div>
               <button type="submit" class="btn-submit" id="submitApptBtn">Randevu Oluştur →</button>
             </form>
-          <div id="myAppointments" class="my-appointments-wrap hidden">
-            <h3>Randevularım</h3>
-            <div id="appointmentsList"></div>
+            <div id="myAppointments" class="my-appointments-wrap hidden">
+              <h3>Randevularım</h3>
+              <div id="appointmentsList"></div>
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="offices-card">
-            <h2>Ofislerimiz</h2>
-            <div class="office-item">
-              <div class="office-name">🏥 Karacabey Ofisi</div>
-              <div class="office-detail"><strong>Diyetisyen:</strong> Sema Polat</div>
-              <div class="office-detail"><strong>Şehir:</strong> Bursa</div>
-              <span class="office-badge">⚡ EMS Cihazı Mevcut</span>
-            </div>
-            <div class="office-item">
-              <div class="office-name">🏥 Bandırma Ofisi</div>
-              <div class="office-detail"><strong>Diyetisyen:</strong> Yasemin Polat</div>
-              <div class="office-detail"><strong>Şehir:</strong> Balıkesir</div>
-            </div>
-            <div class="office-item">
-              <div class="office-name">🏥 Susurluk Ofisi</div>
-              <div class="office-detail"><strong>Diyetisyen:</strong> Yasemin Polat</div>
-              <div class="office-detail"><strong>Şehir:</strong> Balıkesir</div>
-            </div>
-            <div class="contact-note">
-              <strong>📞 Telefon Teyidi</strong><br>
-              Randevunuz oluşturulduktan sonra kayıtlı telefon numaranızdan aranarak teyit edilecektir.
+          <div>
+            <div class="offices-card">
+              <h2>Ofislerimiz</h2>
+              <div class="office-item">
+                <div class="office-name">🏥 Karacabey Ofisi</div>
+                <div class="office-detail"><strong>Diyetisyen:</strong> Sema Polat</div>
+                <div class="office-detail"><strong>Şehir:</strong> Bursa</div>
+                <span class="office-badge">⚡ EMS Cihazı Mevcut</span>
+              </div>
+              <div class="office-item">
+                <div class="office-name">🏥 Bandırma Ofisi</div>
+                <div class="office-detail"><strong>Diyetisyen:</strong> Yasemin Polat</div>
+                <div class="office-detail"><strong>Şehir:</strong> Balıkesir</div>
+              </div>
+              <div class="office-item">
+                <div class="office-name">🏥 Susurluk Ofisi</div>
+                <div class="office-detail"><strong>Diyetisyen:</strong> Yasemin Polat</div>
+                <div class="office-detail"><strong>Şehir:</strong> Balıkesir</div>
+              </div>
+              <div class="contact-note">
+                <strong>📞 Telefon Teyidi</strong><br>
+                Randevunuz oluşturulduktan sonra kayıtlı telefon numaranızdan aranarak teyit edilecektir.
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   </section>
 
