@@ -506,10 +506,34 @@ function renderTimeSlots() {
   const takenSlots = getTakenSlots(office, date);
   const currentSelected = hiddenInput?.value || '';
 
-  // Geçmiş saatleri geçersiz kıl (bugün için)
   const today = new Date().toISOString().split('T')[0];
   const now = new Date();
   const isToday = date === today;
+
+  // Yeni Doluluk Kontrolü: Müsait olan TEK BİR slot bile var mı?
+  const availableSlots = TIME_SLOTS.filter(slot => {
+    const isTaken = takenSlots.includes(slot);
+    let isPast = false;
+    if (isToday) {
+      const [h, m] = slot.split(':').map(Number);
+      const slotDate = new Date();
+      slotDate.setHours(h, m, 0, 0);
+      isPast = slotDate < now;
+    }
+    return !isTaken && !isPast;
+  });
+
+  if (availableSlots.length === 0) {
+    grid.innerHTML = `
+      <div class="day-full-message">
+        <div class="day-full-icon">📅</div>
+        <div class="day-full-text">Bu günün tüm randevuları dolu</div>
+        <div class="day-full-sub">Lütfen başka bir tarih veya ofis seçiniz.</div>
+      </div>
+    `;
+    if (hiddenInput) hiddenInput.value = '';
+    return;
+  }
 
   grid.innerHTML = '';
   TIME_SLOTS.forEach((slot, idx) => {
