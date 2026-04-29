@@ -338,9 +338,9 @@ function logout() {
   APP.currentUser = null;
   localStorage.removeItem(APP.STORAGE_KEYS.USER);
 
-  document.getElementById('loginBtn').classList.remove('hidden');
-  document.getElementById('logoutBtn').classList.add('hidden');
-  document.getElementById('userGreeting').classList.add('hidden');
+  document.querySelectorAll('.login-btn').forEach(btn => btn.classList.remove('hidden'));
+  document.querySelectorAll('.logout-btn').forEach(btn => btn.classList.add('hidden'));
+  document.querySelectorAll('.user-greeting').forEach(el => el.classList.add('hidden'));
 
   showToast('Çıkış yapıldı.', 'info');
   showSection('ana-sayfa');
@@ -348,13 +348,15 @@ function logout() {
 
 function refreshUserUI() {
   if (!APP.currentUser) return;
-  document.getElementById('loginBtn').classList.add('hidden');
-  document.getElementById('logoutBtn').classList.remove('hidden');
+  
+  document.querySelectorAll('.login-btn').forEach(btn => btn.classList.add('hidden'));
+  document.querySelectorAll('.logout-btn').forEach(btn => btn.classList.remove('hidden'));
 
-  const greeting = document.getElementById('userGreeting');
   const firstName = APP.currentUser.name.split(' ')[0];
-  greeting.textContent = `Merhaba, ${firstName} 👋`;
-  greeting.classList.remove('hidden');
+  document.querySelectorAll('.user-greeting').forEach(el => {
+    el.textContent = `Merhaba, ${firstName} 👋`;
+    el.classList.remove('hidden');
+  });
 }
 
 function loadUserSession() {
