@@ -256,11 +256,11 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 85px;
 }
 
 .nav-logo img {
-  height: 55px;
+  height: 60px;
   width: auto;
   transition: transform var(--duration-normal);
 }
@@ -2580,6 +2580,10 @@ footer .foot-social a:hover {
 
 /* Tablets */
 @media (max-width: 768px) {
+  .nav-inner {
+    height: 85px;
+  }
+
   :root {
     font-size: 14px;
   }
@@ -2594,7 +2598,7 @@ footer .foot-social a:hover {
   }
 
   .nav-logo img {
-    height: 65px;
+  height: 55px;
   }
 
   /* Forms */
@@ -2709,6 +2713,10 @@ footer .foot-social a:hover {
 
 /* Mobile Phones */
 @media (max-width: 480px) {
+  .nav-inner {
+    height: 90px;
+  }
+
   :root {
     font-size: 13px;
   }
@@ -2729,7 +2737,7 @@ footer .foot-social a:hover {
   }
 
   .nav-logo img {
-    height: 60px;
+  height: 48px;
   }
 
   /* Forms & Inputs */
@@ -3245,6 +3253,10 @@ select:focus-visible {
    MOBILE TOAST
 ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
+  .nav-inner {
+    height: 90px;
+  }
+
   .toast-container {
     right: 12px;
     left: 12px;
@@ -3263,4 +3275,90 @@ select:focus-visible {
     width: 44px;
     height: 44px;
   }
+}
+/* Instagram Links */
+.team-instagram-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--mid);
+  padding: 0.5rem 1.25rem;
+  background: var(--cream-2);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  transition: all var(--duration-normal);
+}
+
+.team-instagram-link:hover {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 39, 67, 0.25);
+}
+
+.hero-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mid);
+  padding: 0.35rem 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all var(--duration-normal);
+  position: relative;
+  z-index: 5;
+}
+
+.hero-social-link:hover {
+  background: white;
+  color: #dc2743;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 39, 67, 0.2);
+}
+
+.team-instagram-link svg, .hero-social-link svg {
+  transition: transform var(--duration-normal);
+}
+
+.team-instagram-link:hover svg, .hero-social-link:hover svg {
+  transform: rotate(12deg) scale(1.1);
+}
+
+/* Footer Appointment Button */
+.foot-appointment-cta {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.foot-randevu-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white !important;
+  background: linear-gradient(135deg, var(--orange), var(--cherry));
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(200, 57, 42, 0.3);
+  transition: all var(--duration-normal) var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.foot-randevu-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(200, 57, 42, 0.45);
+  background: linear-gradient(135deg, var(--orange-warm), var(--cherry-light));
 }
