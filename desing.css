@@ -239,12 +239,12 @@ body::before {
   right: 0;
   z-index: var(--z-navbar);
   padding: 0 var(--spacing-xl);
-  background: transparent;
+  background: var(--white);
   transition: all var(--duration-normal) var(--transition);
 }
 
 #navbar.scrolled {
-  background: rgba(253, 248, 243, 0.92);
+  background: var(--white);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 1px 0 rgba(200, 57, 42, 0.08), var(--shadow);
@@ -256,11 +256,11 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 85px;
+  height: 90px;
 }
 
 .nav-logo img {
-  height: 60px;
+  height: 65px;
   width: auto;
   transition: transform var(--duration-normal);
 }
@@ -2581,7 +2581,7 @@ footer .foot-social a:hover {
 /* Tablets */
 @media (max-width: 768px) {
   .nav-inner {
-    height: 85px;
+    height:  95px ;
   }
 
   :root {
@@ -2598,7 +2598,7 @@ footer .foot-social a:hover {
   }
 
   .nav-logo img {
-  height: 55px;
+  height: 65px;
   }
 
   /* Forms */
@@ -2714,7 +2714,7 @@ footer .foot-social a:hover {
 /* Mobile Phones */
 @media (max-width: 480px) {
   .nav-inner {
-    height: 90px;
+    height:  100px ;
   }
 
   :root {
@@ -2737,7 +2737,7 @@ footer .foot-social a:hover {
   }
 
   .nav-logo img {
-  height: 48px;
+  height: 65px;
   }
 
   /* Forms & Inputs */
@@ -3254,7 +3254,7 @@ select:focus-visible {
 ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
   .nav-inner {
-    height: 90px;
+    height:  100px ;
   }
 
   .toast-container {
