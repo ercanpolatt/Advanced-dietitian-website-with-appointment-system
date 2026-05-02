@@ -2,10 +2,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "type": "pwa-msedge",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8081",
+            "name": "Open index.html in Edge",
+            "url": "file:///${workspaceFolder}/index.html",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Open index.html in Chrome",
+            "url": "file:///${workspaceFolder}/index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]

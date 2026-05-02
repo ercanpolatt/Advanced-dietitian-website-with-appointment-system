@@ -140,12 +140,15 @@ function toggleMobileMenu() {
   const backdrop = document.getElementById('mobileMenuBackdrop');
   const hamburger = document.getElementById('navHamburger');
   if (menu && hamburger) {
-    menu.classList.toggle('open');
+    const isOpen = menu.classList.toggle('open');
     if (backdrop) backdrop.classList.toggle('open');
     hamburger.classList.toggle('active');
+    
+    const navbar = document.getElementById('navbar');
+    if (navbar) navbar.classList.toggle('menu-open', isOpen);
 
     // Prevent background scrolling when menu is open
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
 }
 
@@ -338,24 +341,28 @@ function logout() {
   APP.currentUser = null;
   localStorage.removeItem(APP.STORAGE_KEYS.USER);
 
-  document.querySelectorAll('.login-btn').forEach(btn => btn.classList.remove('hidden'));
-  document.querySelectorAll('.logout-btn').forEach(btn => btn.classList.add('hidden'));
-  document.querySelectorAll('.user-greeting').forEach(el => el.classList.add('hidden'));
+  refreshUserUI();
+  refreshAppointmentSection();
 
   showToast('Çıkış yapıldı.', 'info');
   showSection('ana-sayfa');
 }
 
 function refreshUserUI() {
-  if (!APP.currentUser) return;
+  const isLoggedIn = !!APP.currentUser;
   
-  document.querySelectorAll('.login-btn').forEach(btn => btn.classList.add('hidden'));
-  document.querySelectorAll('.logout-btn').forEach(btn => btn.classList.remove('hidden'));
+  document.querySelectorAll('.login-btn').forEach(btn => btn.classList.toggle('hidden', isLoggedIn));
+  document.querySelectorAll('.logout-btn').forEach(btn => btn.classList.toggle('hidden', !isLoggedIn));
 
-  const firstName = APP.currentUser.name.split(' ')[0];
   document.querySelectorAll('.user-greeting').forEach(el => {
-    el.textContent = `Merhaba, ${firstName} 👋`;
-    el.classList.remove('hidden');
+    if (isLoggedIn) {
+      const firstName = APP.currentUser.name.split(' ')[0];
+      el.textContent = `Merhaba, ${firstName} 👋`;
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+      el.textContent = '';
+    }
   });
 }
 
