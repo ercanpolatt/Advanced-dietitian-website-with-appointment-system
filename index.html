@@ -29,6 +29,7 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="desing.css?v=4" />
+  <link rel="stylesheet" href="chat.css" />
 
   <!-- 📍 FAVICON 📍 -->
   <link rel="icon"
@@ -59,7 +60,7 @@
       <ul class="nav-links">
         <li><a href="#" onclick="showSection('ana-sayfa')" class="active">Ana Sayfa</a></li>
         <li><a href="#" onclick="showSection('hizmetler')">Hizmetlerimiz</a></li>
-        <li><a href="#" onclick="showSection('blog')">Blog</a></li>
+        <li><a href="#" onclick="showSection('sss')">SSS</a></li>
         <li><a href="#" onclick="showSection('vki')">VKİ Hesaplama</a></li>
         <li><a href="#" onclick="showSection('galeri')">Başarı Galerisi</a></li>
         <li><a href="#" onclick="showSection('randevu')">Randevu</a></li>
@@ -71,9 +72,12 @@
       </div>
       <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()">
         <svg width="23" height="23" viewBox="0 0 23 23">
-          <path class="line line-top" d="M 2 2.5 L 20 2.5" fill="transparent" stroke-width="3" stroke="currentColor" stroke-linecap="round"></path>
-          <path class="line line-mid" d="M 2 9.423 L 20 9.423" fill="transparent" stroke-width="3" stroke="currentColor" stroke-linecap="round"></path>
-          <path class="line line-bot" d="M 2 16.346 L 20 16.346" fill="transparent" stroke-width="3" stroke="currentColor" stroke-linecap="round"></path>
+          <path class="line line-top" d="M 2 2.5 L 20 2.5" fill="transparent" stroke-width="3" stroke="currentColor"
+            stroke-linecap="round"></path>
+          <path class="line line-mid" d="M 2 9.423 L 20 9.423" fill="transparent" stroke-width="3" stroke="currentColor"
+            stroke-linecap="round"></path>
+          <path class="line line-bot" d="M 2 16.346 L 20 16.346" fill="transparent" stroke-width="3"
+            stroke="currentColor" stroke-linecap="round"></path>
         </svg>
       </button>
     </div>
@@ -87,7 +91,7 @@
       <ul class="mobile-nav-links">
         <li style="--i:0"><a href="#" onclick="showSection('ana-sayfa'); toggleMobileMenu()">Ana Sayfa</a></li>
         <li style="--i:1"><a href="#" onclick="showSection('hizmetler'); toggleMobileMenu()">Hizmetlerimiz</a></li>
-        <li style="--i:2"><a href="#" onclick="showSection('blog'); toggleMobileMenu()">Blog</a></li>
+        <li style="--i:2"><a href="#" onclick="showSection('sss'); toggleMobileMenu()">SSS</a></li>
         <li style="--i:3"><a href="#" onclick="showSection('vki'); toggleMobileMenu()">VKİ Hesaplama</a></li>
         <li style="--i:4"><a href="#" onclick="showSection('galeri'); toggleMobileMenu()">Başarı Galerisi</a></li>
         <li style="--i:5"><a href="#" onclick="showSection('randevu'); toggleMobileMenu()">Randevu</a></li>
@@ -267,92 +271,136 @@
   <!-- ╔══════════════════════════════════════════╗
      ║  BLOG
 ╚══════════════════════════════════════════╝ -->
-  <section id="blog">
+  <!-- ╔══════════════════════════════════════════╗
+     ║  SIKÇA SORULAN SORULAR (SSS)
+╚══════════════════════════════════════════╝ -->
+  <section id="sss">
     <div class="wrap">
       <div class="container">
         <div class="section-header">
-          <span class="section-label">📖 Sağlıklı Yaşam</span>
-          <h2 class="section-title">Blog Yazılarımız</h2>
-          <p class="section-sub">Beslenme ve sağlıklı yaşam hakkında uzman diyetisyenlerimizden güncel içerikler.</p>
+          <span class="section-label">🥗 Sıkça Sorulan Sorular</span>
+          <h2 class="section-title">Merak Edilenler</h2>
+          <p class="section-sub">Beslenme süreci ve hizmetlerimiz hakkında en çok sorulan soruları sizin için yanıtladık.</p>
         </div>
-        <div class="blog-grid">
-          <div class="blog-card">
-            <div class="blog-thumb">🥗</div>
-            <div class="blog-body">
-              <div class="blog-meta">
-                <span class="blog-tag">Beslenme</span>
-                <span class="blog-date">10 Şub 2026</span>
-              </div>
-              <h3>Dengeli Beslenmenin Önemi</h3>
-              <p>Dengeli beslenme, vücudumuzun normal işlevini sürdürmesi için gerekli tüm besin öğelerini doğru
-                oranlarda almak anlamına gelir. Karbonhidratlar, proteinler, yağlar, vitaminler, mineraller ve su gibi
-                besin öğeleri sağlığımızı korumak için gereklidir.</p>
-              <button class="blog-read" onclick="showBlogModal(0)">Devamını oku →</button>
+        
+        <div class="faq-accordion">
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>1. Diyetisyen randevusu nasıl oluşturabilirim?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Web sitemizde yer alan randevu formunu doldurarak kolayca randevu oluşturabilirsiniz. Uygun gün ve saat seçiminin ardından sizinle iletişime geçilerek randevunuz kesinleştirilir.</p>
             </div>
           </div>
-          <div class="blog-card">
-            <div class="blog-thumb">💧</div>
-            <div class="blog-body">
-              <div class="blog-meta">
-                <span class="blog-tag">Sağlık</span>
-                <span class="blog-date">8 Şub 2026</span>
-              </div>
-              <h3>Su İçmenin Önemi ve Faydaları</h3>
-              <p>Su, vücudun %60-70'ini oluşturur ve yaşam için vazgeçilmezdir. Yeterli su tüketimi metabolizmayı
-                hızlandırır, vücuttan toksitleri atılmasını sağlar ve enerji seviyesini yükseltir.</p>
-              <button class="blog-read" onclick="showBlogModal(1)">Devamını oku →</button>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>2. Online diyet danışmanlığı hizmeti veriyor musunuz?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Evet, online danışmanlık hizmetimiz bulunmaktadır. Görüşmeler video konferans üzerinden gerçekleştirilir ve size özel beslenme programı hazırlanır.</p>
             </div>
           </div>
-          <div class="blog-card">
-            <div class="blog-thumb">🍎</div>
-            <div class="blog-body">
-              <div class="blog-meta">
-                <span class="blog-tag">Mevsimsel</span>
-                <span class="blog-date">5 Şub 2026</span>
-              </div>
-              <h3>Kış Mevsimi Meyve ve Sebzeleri</h3>
-              <p>Kış mevsiminde portakal, mandalina, lahana ve brokoli gibi sebzeler daha besleyicidir. Sitrus meyveler
-                C vitamini, yeşil sebzeler ise antioksidanlar açısından zengindir.</p>
-              <button class="blog-read" onclick="showBlogModal(2)">Devamını oku →</button>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>3. İlk görüşmede neler yapılır?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>İlk görüşmede detaylı bir analiz yapılır. Beslenme alışkanlıklarınız, sağlık geçmişiniz ve hedefleriniz değerlendirilir. Buna göre tamamen size özel bir program oluşturulur.</p>
             </div>
           </div>
-          <div class="blog-card">
-            <div class="blog-thumb">🥑</div>
-            <div class="blog-body">
-              <div class="blog-meta">
-                <span class="blog-tag">Rehber</span>
-                <span class="blog-date">2 Şub 2026</span>
-              </div>
-              <h3>Sağlıklı Yağlar Rehberi</h3>
-              <p>Avokado, zeytinyağı ve balık yağı gibi "iyi yağlar" kalp sağlığını korur. Doymuş ve trans yağlardan
-                kaçınmak, dengeli beslenme için çok önemlidir.</p>
-              <button class="blog-read" onclick="showBlogModal(3)">Devamını oku →</button>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>4. Diyet listeleri kişiye özel mi hazırlanıyor?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Kesinlikle. Her bireyin metabolizması, yaşam tarzı ve hedefleri farklıdır. Bu yüzden tüm programlarımız tamamen kişiye özel hazırlanır.</p>
             </div>
           </div>
-          <div class="blog-card">
-            <div class="blog-thumb">🏋️</div>
-            <div class="blog-body">
-              <div class="blog-meta">
-                <span class="blog-tag">Spor</span>
-                <span class="blog-date">30 Oca 2026</span>
-              </div>
-              <h3>Spor ve Beslenme İlişkisi</h3>
-              <p>Sporcu beslenme, performansı artırmak ve kasları geliştirmek için kritik önem taşır. Egzersiz öncesi ve
-                sonrası beslenme, hidrasyon ve protein ihtiyacı farklıdır.</p>
-              <button class="blog-read" onclick="showBlogModal(4)">Devamını oku →</button>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>5. Kaç günde sonuç alırım?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Bu süreç kişiden kişiye değişir. Ancak düzenli takip ve programa uyum ile genellikle ilk haftalardan itibaren değişim gözlemlenebilir.</p>
             </div>
           </div>
-          <div class="blog-card">
-            <div class="blog-thumb">😴</div>
-            <div class="blog-body">
-              <div class="blog-meta">
-                <span class="blog-tag">Yaşam Tarzı</span>
-                <span class="blog-date">27 Oca 2026</span>
-              </div>
-              <h3>Uyku ve Kilo İlişkisi</h3>
-              <p>Kaliteli uyku, kilo kontrolü için beslenme kadar önemlidir. Yetersiz uyku, cortisol hormonunu artırır
-                ve kilo alımını tetikler. Günde 7-9 saat uyku ideal olarak kabul edilir.</p>
-              <button class="blog-read" onclick="showBlogModal(5)">Devamını oku →</button>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>6. Aç kalmadan kilo verebilir miyim?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Evet. Amacımız sizi aç bırakmak değil, doğru ve dengeli beslenmeyi öğretmektir. Sağlıklı bir diyet sürdürülebilir olmalıdır.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>7. Spor yapmadan kilo verebilir miyim?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Evet mümkündür, ancak spor süreci hızlandırır ve vücut formunu iyileştirir. Size uygun egzersiz önerileri de sunulmaktadır.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>8. Randevu iptal veya değişikliği nasıl yapılır?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Randevu saatinden en az 24 saat önce bizimle iletişime geçerek iptal veya değişiklik talebinde bulunabilirsiniz.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>9. Ödeme nasıl yapılır?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Ödemeler online olarak veya yüz yüze görüşmelerde nakit/kart ile yapılabilir. Detaylı bilgi randevu sırasında paylaşılır.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>10. Herhangi bir sağlık sorunum varsa yine de diyet yapabilir miyim?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Evet, ancak bu durumda diyet programı tamamen sağlık durumunuza uygun şekilde planlanır. Gerekirse doktorunuzla birlikte ilerlenir.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>11. Diyet sürecinde destek alabilecek miyim?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Evet, süreç boyunca sizinle iletişimde kalıyoruz. Sorularınızı sorabilir ve düzenli geri bildirim alabilirsiniz.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleFAQ(this)">
+              <span>12. Hedefime ulaştıktan sonra ne olacak?</span>
+              <span class="faq-icon"></span>
+            </button>
+            <div class="faq-answer">
+              <p>Hedefinize ulaştıktan sonra kilo koruma programına geçilir. Amacımız sadece kilo vermek değil, bunu kalıcı hale getirmektir.</p>
             </div>
           </div>
         </div>
@@ -606,7 +654,7 @@
     <div class="foot-links">
       <a href="#" onclick="showSection('ana-sayfa')">Ana Sayfa</a>
       <a href="#" onclick="showSection('hizmetler')">Hizmetlerimiz</a>
-      <a href="#" onclick="showSection('blog')">Blog</a>
+      <a href="#" onclick="showSection('sss')">SSS</a>
       <a href="#" onclick="showSection('vki')">VKİ Hesaplama</a>
       <a href="#" onclick="showSection('galeri')">Başarı Galerisi</a>
     </div>
@@ -645,22 +693,13 @@
   <!-- ╔══════════════════════════════════════════╗
      ║  BLOG MODAL
 ╚══════════════════════════════════════════╝ -->
-  <div id="blogModal" class="modal-overlay">
-    <div class="modal-box blog-modal-box">
-      <div class="modal-top">
-        <h2 id="blogModalTitle">Blog Yazısı</h2>
-        <button class="modal-close" onclick="closeBlogModal()">✕</button>
-      </div>
-      <div id="blogModalContent" class="blog-modal-content">
-        <!-- Blog content will be inserted here -->
-      </div>
-    </div>
-  </div>
+
 
   <!-- ═════════════════════════════════════════════════════════
      ✨ EXTERNAL JAVASCRIPT ✨
      ═════════════════════════════════════════════════════════ -->
   <script src="connect.js" defer></script>
+  <script src="chat.js?v=2" defer></script>
 </body>
 
 </html>

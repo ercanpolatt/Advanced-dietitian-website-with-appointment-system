@@ -778,108 +778,19 @@ function showAlert(message, type) {
 }
 
 /* ═══════════════════════════════════════════
-   BLOG MODAL SYSTEM
+   SSS (FAQ) ACCORDION SYSTEM
 ═══════════════════════════════════════════ */
-const BLOG_ARTICLES = [
-  {
-    id: 0,
-    title: "Dengeli Beslenmenin Önemi",
-    emoji: "🍽️",
-    fullContent: `Dengeli beslenme, vücudumuzun normal işlevini sürdürmesi için gerekli tüm besin öğelerini doğru oranlarda almak anlamına gelir. Karbonhidratlar, proteinler, yağlar, vitaminler, mineraller ve su gibi besin öğeleri her yaşta sağlığımızı korumak için gereklidir.
+function toggleFAQ(btn) {
+  const item = btn.parentElement;
+  const isActive = item.classList.contains('active');
 
-Beslenme dengesizliği obezite, diyabet, kalp hastalıkları ve birçok kronik hastalığın temel sebebidir. Bir gün içinde alınan kalori miktarının %50-65'i karbonhidratlardan, %10-35'i proteinlerden, %20-35'i yağlardan gelmesi önerilir.
-
-YaSem Diyet'te, kişinin yaşı, aktivite seviyesi, sağlık durumu ve hedefleri doğrultusunda özel dengelenmiş beslenme programları hazırlıyoruz.
-
-Çoğu zaman insanlar yanlış diyet uygulamalarına başvururlar ve bu kısa süreli sonuçlar verse de uzun vadede vücuda zarar verir. Dengeli beslenme, kalıcı sonuçlar için en etkili yoldur.`
-  },
-  {
-    id: 1,
-    title: "Su İçmenin Önemi ve Faydaları",
-    emoji: "💧",
-    fullContent: `Su, insan vücudunun %60-70'ini oluşturan ve yaşam için vazgeçilmez olan birincil elementtir. Yeterli su tüketimi metabolizmayı hızlandırır, vücuttan toksitleri temizler, cilt sağlığını iyileştirir, enerji seviyesini artırır ve kilo kontrolünü destekler.
-
-Günde en az 8-10 bardak (2-3 litre) su içilmesi önerilir. Ancak su ihtiyacı kişinin yaşı, cinsiyeti, aktivite seviyesi ve iklim koşullarına göre değişebilir.
-
-Yetersiz su tüketimi yorgunluk, baş ağrısı, düşük konsantrasyon, cilt sorunları ve hatta kilo almaya yol açabilir. Su sadece susuzluğu gidermez, aynı zamanda besin emilimini de artırır.
-
-YaSem Diyet danışmanları, su tüketim alışkanlığını da beslenme programının bir parçası olarak değerlendirir ve kişiye özel su tüketim planı oluştururuz.`
-  },
-  {
-    id: 2,
-    title: "Kış Mevsimi Meyve ve Sebzeleri",
-    emoji: "🎃",
-    fullContent: `Kış mevsiminde tüketilen meyve ve sebzeler, doğal mevsim döngüsüne uymuş olduğundan daha lezzetli ve besleyicidir. Portakal, mandalina, limon, greyfurt gibi sitrus meyveler C vitamini açısından zengindir ve bağışıklık sistemini güçlendirir.
-
-Lahana, brokoli, pırasa, havuç, pancar ve karalahana kış sebzeleri arasında yer alır. Bu sebzelerin tümü vitamin, mineral ve antioksidanlar bakımından oldukça zengindir.
-
-Yerel ve mevsimsel ürünler hem daha ucuz hem de daha sağlıklıdır. Kış mevsiminde bu ürünleri bolca tüketmek bağışıklığınızı güçlü hale getirecektir.
-
-Ayrıca bu sebzeler daha az pestisit içerir ve çevre için daha sürdürülebilir seçeneklerdir.`
-  },
-  {
-    id: 3,
-    title: "Sağlıklı Yağlar Rehberi",
-    emoji: "🥑",
-    fullContent: `Yağlar besin zincirinin önemli bir parçasıdır ve tümü zararlı değildir. Avokado, zeytinyağı, balık yağı ve kuruyemişlerdeki yağlar "iyi yağlar" olarak bilinir ve kalp sağlığını korur.
-
-Omega-3 yağ asitleri, beyin sağlığı, anti-inflamasyon ve kalp hastalıklarından koruma sağlar. Çoğu balık, özellikle somon, uskumru omega-3 açısından zengindir.
-
-Bunun aksine hayvan kökenli doymuş yağlar ve trans yağlar zararlıdır. Bu tür yağlar kolesterol seviyesini artırır ve kalp hastalıkları riskini yükseltir.
-
-Günde 25-35 gram yağ alınması önerilir, ancak bu yağlar sağlıklı kaynaklardan gelmelidir.`
-  },
-  {
-    id: 4,
-    title: "Spor ve Beslenme İlişkisi",
-    emoji: "🏋️",
-    fullContent: `Sporcu beslenme, performansı artırmak, kasları geliştirmek ve yaralanmaları önlemek için kritik bir faktördür. Spor yaparken vücut daha fazla enerjiye ve protein ihtiyacı duyar.
-
-Egzersiz öncesi hızlı emilen karbonhidrat ve az protein tüketilmesi önerilir. Egzersiz sonrası ise protein ve karbonhidrat kombinasyonu kas onarımını destekler.
-
-Hidrasyon da oldukça önemlidir. Özellikle yoğun antrenman sırasında vücut çok su kaybeder. Spor sırasında ve sonrasında elektrolit içeren içecekler tüketilmesi performansı artırır.
-
-Kas geliştirmek isteyenlerin protein ihtiyacı günde 1.2-2.0 gram/kg vücut ağırlığı kadardır.`
-  },
-  {
-    id: 5,
-    title: "Uyku ve Kilo İlişkisi",
-    emoji: "😴",
-    fullContent: `Kaliteli uyku, kilo kontrolü ve genel sağlık için beslenme kadar önemlidir. Yetersiz uyku, cortisol hormonunun artmasına neden olur ve kilo alımını tetikler.
-
-Günde 7-9 saat kaliteli uyku alınması önerilir. Ancak sadece uyku saati değil, uykunun kalitesi de önemlidir. Düzenli uyku saati, karanlık bir ortam ve yatma öncesi teknoloji kullanımından kaçınmak uyku kalitesini iyileştirir.
-
-Akşam saatlerinde parlak ışıklar, özellikle telefon, melatonin üretimini engeller. Yatmadan en az 1 saat önce teknoloji kullanımından kaçınmak tavsiye edilir.
-
-Beslenme ve uyku dengesinin sağlanması kilo kontrolü ve sağlıklı yaşam için kritik öneme sahiptir.`
-  }
-];
-
-function showBlogModal(index) {
-  if (index < 0 || index >= BLOG_ARTICLES.length) return;
-
-  const article = BLOG_ARTICLES[index];
-  const modal = document.getElementById('blogModal');
-  const title = document.getElementById('blogModalTitle');
-  const content = document.getElementById('blogModalContent');
-  if (!modal || !title || !content) return;
-
-  title.textContent = `${article.emoji} ${article.title}`;
-  // XSS-safe: split paragraphs and create elements
-  content.innerHTML = '';
-  article.fullContent.split('\n\n').forEach((para) => {
-    const p = document.createElement('p');
-    p.textContent = para;
-    content.appendChild(p);
+  // Close all other FAQ items
+  document.querySelectorAll('.faq-item').forEach((el) => {
+    el.classList.remove('active');
   });
 
-  modal.classList.add('open');
-}
-
-function closeBlogModal() {
-  const modal = document.getElementById('blogModal');
-  if (modal) {
-    modal.classList.remove('open');
-    document.getElementById('blogModalContent').innerHTML = '';
+  // Toggle current item
+  if (!isActive) {
+    item.classList.add('active');
   }
 }
