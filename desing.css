@@ -335,40 +335,39 @@ body::before {
 /* Hamburger Menu */
 .nav-hamburger {
   display: none;
-  flex-direction: column;
-  gap: 0.35rem;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0.5rem;
-  z-index: 2500;
-  /* mobile-menu (2000) üzerinde olması için */
+  z-index: 2501;
   position: relative;
   pointer-events: auto !important;
+  color: var(--cherry);
+  transition: transform var(--duration-normal);
 }
 
-.nav-hamburger span {
+.nav-hamburger svg {
   display: block;
-  width: 26px;
-  height: 3px;
-  background: var(--cherry);
-  border-radius: 2px;
-  transition: all var(--duration-normal) var(--transition);
 }
 
-.nav-hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(10px, 10px);
+.nav-hamburger .line {
+  transition: d 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s var(--transition);
 }
 
-.nav-hamburger.active span:nth-child(2) {
+.nav-hamburger.active .line-top {
+  d: path("M 3 16.5 L 17 2.5");
+}
+
+.nav-hamburger.active .line-mid {
   opacity: 0;
 }
 
-.nav-hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(8px, -8px);
+.nav-hamburger.active .line-bot {
+  d: path("M 3 2.5 L 17 16.346");
 }
 
-/* Mobile Menu */
+/* Mobile Menu - Circular Clip Path */
 .mobile-menu {
   position: fixed;
   top: 0;
@@ -380,14 +379,21 @@ body::before {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  transform: translateY(-100%);
-  /* Yukarıdan aşağı kayması daha premium hissettirir */
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
+  /* Start as a small circle at the hamburger position */
+  clip-path: circle(0px at calc(100% - 40px) 45px);
+  transition: clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: clip-path;
+  pointer-events: none;
 }
 
 .mobile-menu.open {
-  transform: translateY(0);
+  clip-path: circle(150% at calc(100% - 40px) 45px);
+  pointer-events: auto;
+}
+
+/* Hide previous slide animation */
+.mobile-menu.open {
+  /* clip-path takes care of visibility */
 }
 
 /* Backdrop overlay */
@@ -409,43 +415,31 @@ body::before {
 .mobile-menu-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(200, 57, 42, 0.1);
-  background: var(--cream-3);
+  justify-content: center; /* Menü başlığını ortalıyoruz */
+  padding: 3rem 1.5rem 1rem;
+  border-bottom: none;
+  background: transparent;
 }
 
 .mobile-menu-header h2 {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
+  font-size: 1.8rem; /* Daha büyük ve şık */
   color: var(--cherry);
   margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.15s;
 }
 
-.mobile-menu-close {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(200, 57, 42, 0.08);
-  border: none;
-  color: var(--cherry);
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--duration-normal);
-}
-
-.mobile-menu-close:hover,
-.mobile-menu-close:active {
-  background: var(--cherry);
-  color: white;
+.mobile-menu.open .mobile-menu-header h2 {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .mobile-nav-links {
   list-style: none;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -453,39 +447,55 @@ body::before {
 }
 
 .mobile-nav-links li {
-  border-bottom: 1px solid rgba(200, 57, 42, 0.06);
+  border-bottom: none; /* Çizgileri kaldırıp daha temiz bir görünüm sağlıyoruz */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.05s + 0.2s);
+}
+
+.mobile-menu.open .mobile-nav-links li {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .mobile-nav-links a {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Linkleri ortalayarak tam ekran etkisini artırıyoruz */
-  padding: 1.5rem;
-  font-size: 1.25rem;
+  padding: 1.25rem;
   font-family: var(--font-serif);
-  font-weight: 600;
-  color: var(--bark);
-  transition: all 0.3s ease;
-  min-height: 60px;
-}
-
-.mobile-nav-links a:hover,
-.mobile-nav-links a:active {
-  background: var(--cream);
+  font-size: 1.5rem;
   color: var(--cherry);
-  transform: scale(1.05);
+  text-decoration: none;
+  transition: transform 0.3s;
 }
 
-/* Mobile CTA area inside menu */
+.mobile-nav-links a:active {
+  transform: scale(0.95);
+}
+
 .mobile-menu-cta {
-  padding: 1.25rem 1.5rem;
-  border-top: 1px solid rgba(200, 57, 42, 0.08);
-  background: var(--cream-3);
+  padding: 2rem 1.5rem 5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: calc(var(--i) * 0.05s + 0.2s);
 }
+
+.mobile-menu.open .mobile-menu-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Link Hover Effects */
+.mobile-nav-links a:hover {
+  background: rgba(200, 57, 42, 0.05);
+}
+
 
 /* ═══════════════════════════════════════════
    BUTTONS

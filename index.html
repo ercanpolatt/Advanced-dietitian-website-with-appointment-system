@@ -70,9 +70,11 @@
         <button id="loginBtn" class="btn-pill login-btn" onclick="showModal('loginModal')">Giriş Yap</button>
       </div>
       <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
+        <svg width="23" height="23" viewBox="0 0 23 23">
+          <path class="line line-top" d="M 2 2.5 L 20 2.5" fill="transparent" stroke-width="3" stroke="currentColor" stroke-linecap="round"></path>
+          <path class="line line-mid" d="M 2 9.423 L 20 9.423" fill="transparent" stroke-width="3" stroke="currentColor" stroke-linecap="round"></path>
+          <path class="line line-bot" d="M 2 16.346 L 20 16.346" fill="transparent" stroke-width="3" stroke="currentColor" stroke-linecap="round"></path>
+        </svg>
       </button>
     </div>
 
@@ -83,14 +85,14 @@
         <h2>Menü</h2>
       </div>
       <ul class="mobile-nav-links">
-        <li><a href="#" onclick="showSection('ana-sayfa'); toggleMobileMenu()">Ana Sayfa</a></li>
-        <li><a href="#" onclick="showSection('hizmetler'); toggleMobileMenu()">Hizmetlerimiz</a></li>
-        <li><a href="#" onclick="showSection('blog'); toggleMobileMenu()">Blog</a></li>
-        <li><a href="#" onclick="showSection('vki'); toggleMobileMenu()">VKİ Hesaplama</a></li>
-        <li><a href="#" onclick="showSection('galeri'); toggleMobileMenu()">Başarı Galerisi</a></li>
-        <li><a href="#" onclick="showSection('randevu'); toggleMobileMenu()">Randevu</a></li>
+        <li style="--i:0"><a href="#" onclick="showSection('ana-sayfa'); toggleMobileMenu()">Ana Sayfa</a></li>
+        <li style="--i:1"><a href="#" onclick="showSection('hizmetler'); toggleMobileMenu()">Hizmetlerimiz</a></li>
+        <li style="--i:2"><a href="#" onclick="showSection('blog'); toggleMobileMenu()">Blog</a></li>
+        <li style="--i:3"><a href="#" onclick="showSection('vki'); toggleMobileMenu()">VKİ Hesaplama</a></li>
+        <li style="--i:4"><a href="#" onclick="showSection('galeri'); toggleMobileMenu()">Başarı Galerisi</a></li>
+        <li style="--i:5"><a href="#" onclick="showSection('randevu'); toggleMobileMenu()">Randevu</a></li>
       </ul>
-      <div class="mobile-menu-cta">
+      <div class="mobile-menu-cta" style="--i:6">
         <div class="user-greeting hidden"></div>
         <button class="btn-outline logout-btn hidden" onclick="logout(); toggleMobileMenu()">Çıkış Yap</button>
         <button class="btn-pill login-btn" onclick="showModal('loginModal'); toggleMobileMenu()">Giriş Yap</button>
